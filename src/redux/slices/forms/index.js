@@ -2,21 +2,18 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export const todoSlice = createSlice({
   name: 'todos',
-  initialState: [],
+  initialState: {
+    floorsNo:0
+  },
   reducers: {
-    addTodo: (state, action) => {
-      const todo = {
-        id: Math.random(),
-        text: action.payload,
-      };
-
-      state.push(todo);
+    floorsNoSetter: (state, action) => {
+   state.floorsNo = action.payload
   },
 }
 });
 
 // this is for dispatch
-export const { addTodo } = todoSlice.actions;
+export const { floorsNoSetter } = todoSlice.actions;
 
 // this is for configureStore
 export default todoSlice.reducer;
