@@ -17,12 +17,14 @@ import {
 import "leaflet/dist/leaflet.css";
 import { floorsNoSetter, form } from "../../../redux/slices/forms";
 import { Link, useNavigate } from "react-router-dom";
+import { cities, states } from "../../elements/cityPicker";
 
 const GeneralInfo = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const formData = useSelector((state) => state.todos);
   const [allowContinue, setAllowContinue] = useState(false);
+  const [cityOptions, setCityOptions] = useState([]);
   const mapRef = useRef(null);
 
   const formHandler = (key, value) => {
@@ -32,7 +34,6 @@ const GeneralInfo = () => {
     formHandler("latidude", e.latlng.lat);
     formHandler("longitude", e.latlng.lng);
   };
-
   useEffect(() => {
     if (
       formData.floorsOn &&
@@ -47,6 +48,10 @@ const GeneralInfo = () => {
       );
     }
   }, [formData.florsOn, formData.florsUnder]);
+
+  useEffect(() => {
+    setCityOptions(cities[formData.province] || []);
+  }, [formData.province]);
 
   useEffect(() => {
     if (
@@ -99,7 +104,7 @@ const GeneralInfo = () => {
                       <SelectBox
                         value={formData.province}
                         label="Province"
-                        options={[{ title: "option1" }, { title: "option2" }]}
+                        options={states}
                         onChange={(title) => {
                           debugger;
                           formHandler("province", title);
@@ -110,7 +115,7 @@ const GeneralInfo = () => {
                       <SelectBox
                         value={formData.city}
                         label="City"
-                        options={[{ title: "option1" }, { title: "option2" }]}
+                        options={cityOptions}
                         onChange={(value) => {
                           formHandler("city", value);
                         }}
