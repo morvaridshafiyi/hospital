@@ -32,7 +32,7 @@ const HospitalClassification = () => {
           <div className="row">
             <div className="col col-4">
               <TextInput
-                value={-index}
+                value={-index - 1}
                 required={true}
                 onChange={(value) => {}}
               />
