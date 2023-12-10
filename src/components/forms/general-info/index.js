@@ -146,7 +146,7 @@ const GeneralInfo = () => {
                     <div className="col col-6">
                       <TextInput
                         value={formData.floorsOn}
-                        label="Flors On"
+                        label="Floors On"
                         required={true}
                         onChange={(value) => {
                           formHandler("floorsOn", value);
@@ -156,7 +156,7 @@ const GeneralInfo = () => {
                     <div className="col col-6">
                       <TextInput
                         value={formData.floorsUnder}
-                        label="Flors Under"
+                        label="Floors Under"
                         required={true}
                         onChange={(value) => {
                           formHandler("floorsUnder", value);

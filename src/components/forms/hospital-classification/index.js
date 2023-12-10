@@ -6,32 +6,16 @@ import RadioButton from "../../elements/radioButton";
 import { useState } from "react";
 
 const HospitalClassification = () => {
-  const floorNo = useSelector((state) => state.todos.floorsNo);
+  const floors = useSelector((state) => state.todos);
+
   const [standard, setStandard] = useState();
-  const loopArray = Array.from({ length: 3 }, (value, index) => {
+  const floorsOn = Array.from({ length: floors.floorsOn }, (value, index) => {
     return (
       <div className="container-fluid">
         <div className="row">
           <div className="col col-4">
             <TextInput
-              value={"jg"}
-              label="Impact Factor"
-              required={true}
-              onChange={(value) => {}}
-            />
-          </div>
-          <div className="col col-4">
-            <TextInput
-              value={"kjh"}
-              label="Impact Factor"
-              required={true}
-              onChange={(value) => {}}
-            />
-          </div>
-          <div className="col col-4">
-            <TextInput
-              value={"jjhg"}
-              label="Impact Factor"
+              value={index++}
               required={true}
               onChange={(value) => {}}
             />
@@ -39,7 +23,25 @@ const HospitalClassification = () => {
         </div>
       </div>
     );
-  });
+  }).reverse();
+  const floorsUnder = Array.from(
+    { length: floors.floorsUnder },
+    (value, index) => {
+      return (
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col col-4">
+              <TextInput
+                value={-index}
+                required={true}
+                onChange={(value) => {}}
+              />
+            </div>
+          </div>
+        </div>
+      );
+    }
+  );
   return (
     <section className="hospital-classification">
       <div className="container">
@@ -47,7 +49,8 @@ const HospitalClassification = () => {
           <div className="col col-12">
             <Breadcrumb activeStep={2} />
           </div>
-          <div className="col col-4">{loopArray}</div>
+          <div className="col col-4">{floorsOn}</div>
+          <div className="col col-4">{floorsUnder}</div>
           <div className="col col-4">
             <RadioButton
               title="Standard 2800 Edition"
