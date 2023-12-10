@@ -16,11 +16,13 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { floorsNoSetter, form } from "../../../redux/slices/forms";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const GeneralInfo = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const formData = useSelector((state) => state.todos);
+  const [allowContinue, setAllowContinue] = useState(false);
   const mapRef = useRef(null);
 
   const formHandler = (key, value) => {
@@ -45,8 +47,34 @@ const GeneralInfo = () => {
       );
     }
   }, [formData.florsOn, formData.florsUnder]);
- 
-  
+
+  useEffect(() => {
+    if (
+      formData.address &&
+      formData.bedsNumber &&
+      formData.city &&
+      formData.createdDate &&
+      formData.designedDate &&
+      formData.floorsOn &&
+      formData.floorsUnder &&
+      formData.hospitalName &&
+      formData.impactFactor &&
+      formData.latitude &&
+      formData.longitude &&
+      formData.province &&
+      formData.serviceDate &&
+      formData.soilType &&
+      formData.unitPrice
+    ) {
+      setAllowContinue(true);
+    } else {
+      setAllowContinue(false);
+    }
+  }, [formData]);
+
+  const Next = () => {
+    navigate("/hospital-classification");
+  };
   return (
     <section className="general-info">
       <div className="container">
@@ -59,66 +87,12 @@ const GeneralInfo = () => {
               <div className="col col-8">
                 <div className="container-fluid">
                   <div className="row">
-                    <div className="col col-6">
+                    <div className="col col-12">
                       <TextInput
                         value={formData.hospitalName}
                         label={"Hospital Name"}
                         required={true}
                         onChange={(value) => formHandler("hospitalName", value)}
-                      />
-                      <SelectBox
-                        value={formData.city}
-                        label="City"
-                        options={[{ title: "option1" }, { title: "option2" }]}
-                        onChange={(value) => {
-                          formHandler("city", value);
-                        }}
-                      />
-                      <TextInput
-                        value={formData.floorsOn}
-                        label="Flors On"
-                        required={true}
-                        onChange={(value) => {
-                          formHandler("floorsOn", value);
-                        }}
-                      />
-
-                      <MiladiDatePicker
-                        label="Designed Date"
-                        value={formData.designedDate}
-                        onChange={(date) => formHandler("designedDate", date)}
-                      />
-                      <TextInput
-                        value={formData.latitude}
-                        label="Latitude"
-                        required={true}
-                        onChange={(value) => {
-                          formHandler("latitude", value);
-                        }}
-                      />
-                      <TextInput
-                        value={formData.bedsNumber}
-                        label="Beds Number"
-                        required={true}
-                        onChange={(value) => {
-                          formHandler("bedsNumber", value);
-                        }}
-                      />
-                      <TextInput
-                        value={formData.unitPrice}
-                        label="Unit Price"
-                        required={true}
-                        onChange={(value) => {
-                          formHandler("unitPrice", value);
-                        }}
-                      />
-                      <SelectBox
-                        value={formData.soilType}
-                        label="Soil Type"
-                        options={[{ title: "option1" }, { title: "option2" }]}
-                        onChange={(title) => {
-                          formHandler("soilType", title);
-                        }}
                       />
                     </div>
                     <div className="col col-6">
@@ -131,7 +105,50 @@ const GeneralInfo = () => {
                           formHandler("province", title);
                         }}
                       />
-
+                    </div>
+                    <div className="col col-6">
+                      <SelectBox
+                        value={formData.city}
+                        label="City"
+                        options={[{ title: "option1" }, { title: "option2" }]}
+                        onChange={(value) => {
+                          formHandler("city", value);
+                        }}
+                      />
+                    </div>
+                    <div className="col col-4">
+                      {" "}
+                      <MiladiDatePicker
+                        label="Designed Date"
+                        value={formData.designedDate}
+                        onChange={(date) => formHandler("designedDate", date)}
+                      />
+                    </div>
+                    <div className="col col-4">
+                      <MiladiDatePicker
+                        label="Created Date"
+                        value={formData.createdDate}
+                        onChange={(date) => formHandler("createdDate", date)}
+                      />
+                    </div>
+                    <div className="col col-4">
+                      <MiladiDatePicker
+                        label="Service Date"
+                        value={formData.serviceDate}
+                        onChange={(date) => formHandler("serviceDate", date)}
+                      />
+                    </div>
+                    <div className="col col-6">
+                      <TextInput
+                        value={formData.floorsOn}
+                        label="Flors On"
+                        required={true}
+                        onChange={(value) => {
+                          formHandler("floorsOn", value);
+                        }}
+                      />
+                    </div>
+                    <div className="col col-6">
                       <TextInput
                         value={formData.floorsUnder}
                         label="Flors Under"
@@ -140,17 +157,28 @@ const GeneralInfo = () => {
                           formHandler("floorsUnder", value);
                         }}
                       />
-                      <MiladiDatePicker
-                        label="Created Date"
-                        value={formData.createdDate}
-                        onChange={(date) => formHandler("createdDate", date)}
-                      />
-                      <MiladiDatePicker
-                        label="Service Date"
-                        value={formData.serviceDate}
-                        onChange={(date) => formHandler("serviceDate", date)}
-                      />
+                    </div>
 
+                    <div className="col col-12">
+                      <TextArea
+                        label="Address"
+                        value={formData.address}
+                        onChange={(value) => formHandler("address", value)}
+                        required={true}
+                        cols={5}
+                      />
+                    </div>
+                    <div className="col col-6">
+                      <TextInput
+                        value={formData.latitude}
+                        label="Latitude"
+                        required={true}
+                        onChange={(value) => {
+                          formHandler("latitude", value);
+                        }}
+                      />
+                    </div>
+                    <div className="col col-6">
                       <TextInput
                         value={formData.longitude}
                         label="Longitude"
@@ -159,6 +187,18 @@ const GeneralInfo = () => {
                           formHandler("longitude", value);
                         }}
                       />
+                    </div>
+                    <div className="col col-4">
+                      <TextInput
+                        value={formData.bedsNumber}
+                        label="Beds Number"
+                        required={true}
+                        onChange={(value) => {
+                          formHandler("bedsNumber", value);
+                        }}
+                      />
+                    </div>
+                    <div className="col col-4">
                       <TextInput
                         value={formData.impactFactor}
                         label="Impact Factor"
@@ -167,12 +207,25 @@ const GeneralInfo = () => {
                           formHandler("impactFactor", value);
                         }}
                       />
-                      <TextArea
-                        label="Address"
-                        value={formData.address}
-                        onChange={(value) => formHandler("address", value)}
+                    </div>
+                    <div className="col col-4">
+                      <TextInput
+                        value={formData.unitPrice}
+                        label="Unit Price"
                         required={true}
-                        cols={5}
+                        onChange={(value) => {
+                          formHandler("unitPrice", value);
+                        }}
+                      />
+                    </div>
+                    <div className="col col-12">
+                      <SelectBox
+                        value={formData.soilType}
+                        label="Soil Type"
+                        options={[{ title: "option1" }, { title: "option2" }]}
+                        onChange={(title) => {
+                          formHandler("soilType", title);
+                        }}
                       />
                     </div>
                   </div>
@@ -198,8 +251,11 @@ const GeneralInfo = () => {
             </div>
           </div>
           <div className="col col-12">
-            <button className="next">
-              <Link to={"/hospital-classification"}>Next</Link>
+            <button
+              className={`next ${allowContinue ? "" : "disable"}`}
+              onClick={allowContinue ? Next : null}
+            >
+              Next
             </button>
           </div>
         </div>

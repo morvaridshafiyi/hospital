@@ -3,18 +3,32 @@ import "./style.scss";
 const Breadcrumb = ({ activeStep }) => {
   return (
     <nav aria-label="breadcrumb">
-    <ol class="default-breadcrumb">
-        <li class="crumb active">
-          <div class="link"><a>General Info</a></div>
+      <ol className="default-breadcrumb">
+        <li
+          className={`crumb ${
+            activeStep === 1 ? "active" : activeStep > 1 ? "success" : ""
+          }`}
+        >
+          <div className="link">
+            <a>General Info</a>
+          </div>
         </li>
-        <li class="crumb">
-          <div class="link"><a href="#">Hospital Classification</a></div>
+        <li
+          className={`crumb ${
+            activeStep === 2 ? "active" : activeStep > 2 ? "success" : ""
+          }`}
+        >
+          <div className="link">
+            <a href="#">Hospital Classification</a>
+          </div>
         </li>
-        <li class="crumb">
-            <div class="link"><a href="#">Add Non Stuructural Components</a></div>
+        <li className={`crumb ${activeStep === 3 ? "active" : ""}`}>
+          <div className="link">
+            <a href="#">Add Non Stuructural Components</a>
+          </div>
         </li>
-    </ol>
-</nav>
+      </ol>
+    </nav>
     // <nav>
     //   <ol className="cd-breadcrumb triangle">
     //     <li className={`${activeStep === 1 ? "current" : ""}`}>

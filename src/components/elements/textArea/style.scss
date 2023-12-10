@@ -1,9 +1,9 @@
 @import "../../../assets/styles/colors.scss";
 .text-area{
     position: relative;
-    margin-bottom: 26px;
+    margin-bottom: 16px;
     textarea {
-        width: 89%;
+        width: -webkit-fill-available;
         border-radius: 6px;
         font-size: 16px;
         padding: 14px 16px;

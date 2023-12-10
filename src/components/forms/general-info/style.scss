@@ -14,5 +14,10 @@
     font-weight: bold;
     color: #fff;
     margin-top: 48px;
+    cursor: pointer;
+    &.disable {
+      opacity: 0.5;
+      cursor: unset;
+    }
   }
 }

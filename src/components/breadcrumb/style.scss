@@ -3,6 +3,7 @@ $breadcrumbs-background: #eaecf1;
 $breadcrumbs-text-color: #5f6e7d;
 $breadcrumbs-active-bg: #0766ad;
 $breadcrumbs-active-text-color: #ffffff;
+@import "../../assets/styles/colors.scss";
 
 .default-breadcrumb {
   display: flex;
@@ -86,7 +87,23 @@ $breadcrumbs-active-text-color: #ffffff;
           color: #fff;
         }
       }
-      
+    }
+    &.success {
+      background-color: $green-100;
+      color: $breadcrumbs-active-text-color;
+
+      &::before,
+      &::after {
+        background-color: $green-100;
+      }
+      a {
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+        &:hover {
+          color: #fff;
+        }
+      }
     }
 
     .link {
