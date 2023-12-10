@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./style.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { addTodo } from "../../../redux/slices/forms";
@@ -15,40 +15,38 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { floorsNoSetter } from "../../../redux/slices/forms";
+import { floorsNoSetter, form } from "../../../redux/slices/forms";
 import { Link } from "react-router-dom";
 
 const GeneralInfo = () => {
-  const [hospitalName, setHospitalName] = useState("");
-  const [province, setProvince] = useState("");
-  const [city, setCity] = useState("");
-  const [designedDate, setDesignedDate] = useState();
-  const [createdDate, setCreatedDate] = useState();
-  const [serviceDate, setServiceDate] = useState();
-  const [florsOn, setFlorsOn] = useState("");
-  const [florsUnder, setFlorsUnder] = useState("");
-  const [address, setAddress] = useState("");
-  const [lat, setLat] = useState("");
-  const [lng, setLng] = useState("");
-  const [bedsNumber, setBedsNumber] = useState("");
-  const [impactFactor, setImpactFactor] = useState("");
-  const [unitPrice, setUnitPrice] = useState("");
-  const [soilType, setSoilType] = useState("");
-  const [position, setPosition] = useState([32.4279, 53.688]);
-
-  const handleMapClick = (e) => {
-    setPosition([e.latlng.lat, e.latlng.lng]);
-    setLat(e.latlng.lat);
-    setLng(e.latlng.lng);
-  };
-  // initial the dispatch here
   const dispatch = useDispatch();
+  const formData = useSelector((state) => state.todos);
+  const mapRef = useRef(null);
+
+  const formHandler = (key, value) => {
+    dispatch(form({ key, value }));
+  };
+  const handleMapClick = (e) => {
+    formHandler("latidude", e.latlng.lat);
+    formHandler("longitude", e.latlng.lng);
+  };
 
   useEffect(() => {
-    if (florsOn && florsOn.length > 0 && florsUnder && florsUnder.length > 0) {
-      dispatch(floorsNoSetter(parseInt(florsOn) + parseInt(florsUnder)));
+    if (
+      formData.floorsOn &&
+      formData.floorsOn.length > 0 &&
+      formData.floorsUnder &&
+      formData.floorsUnder.length > 0
+    ) {
+      dispatch(
+        floorsNoSetter(
+          parseInt(formData.floorsOn) + parseInt(formData.floorsUnder)
+        )
+      );
     }
-  }, [florsOn, florsUnder]);
+  }, [formData.florsOn, formData.florsUnder]);
+ 
+  
   return (
     <section className="general-info">
       <div className="container">
@@ -63,118 +61,116 @@ const GeneralInfo = () => {
                   <div className="row">
                     <div className="col col-6">
                       <TextInput
-                        value={hospitalName}
+                        value={formData.hospitalName}
                         label={"Hospital Name"}
                         required={true}
-                        onChange={(value) => {
-                          setHospitalName(value);
-                        }}
+                        onChange={(value) => formHandler("hospitalName", value)}
                       />
                       <SelectBox
-                        value={city}
+                        value={formData.city}
                         label="City"
                         options={[{ title: "option1" }, { title: "option2" }]}
-                        onChange={(title) => {
-                          setCity(title);
+                        onChange={(value) => {
+                          formHandler("city", value);
                         }}
                       />
                       <TextInput
-                        value={florsOn}
+                        value={formData.floorsOn}
                         label="Flors On"
                         required={true}
                         onChange={(value) => {
-                          setFlorsOn(value);
+                          formHandler("floorsOn", value);
                         }}
                       />
 
                       <MiladiDatePicker
                         label="Designed Date"
-                        value={designedDate}
-                        onChange={(date) => setDesignedDate(date)}
+                        value={formData.designedDate}
+                        onChange={(date) => formHandler("designedDate", date)}
                       />
                       <TextInput
-                        value={lat}
+                        value={formData.latitude}
                         label="Latitude"
                         required={true}
                         onChange={(value) => {
-                          setLat(value);
+                          formHandler("latitude", value);
                         }}
                       />
                       <TextInput
-                        value={bedsNumber}
+                        value={formData.bedsNumber}
                         label="Beds Number"
                         required={true}
                         onChange={(value) => {
-                          setBedsNumber(value);
+                          formHandler("bedsNumber", value);
                         }}
                       />
                       <TextInput
-                        value={unitPrice}
+                        value={formData.unitPrice}
                         label="Unit Price"
                         required={true}
                         onChange={(value) => {
-                          setUnitPrice(value);
+                          formHandler("unitPrice", value);
                         }}
                       />
                       <SelectBox
-                        value={soilType}
+                        value={formData.soilType}
                         label="Soil Type"
                         options={[{ title: "option1" }, { title: "option2" }]}
                         onChange={(title) => {
-                          setSoilType(title);
+                          formHandler("soilType", title);
                         }}
                       />
                     </div>
                     <div className="col col-6">
                       <SelectBox
-                        value={province}
+                        value={formData.province}
                         label="Province"
                         options={[{ title: "option1" }, { title: "option2" }]}
                         onChange={(title) => {
                           debugger;
-                          setProvince(title);
+                          formHandler("province", title);
                         }}
                       />
 
                       <TextInput
-                        value={florsUnder}
+                        value={formData.floorsUnder}
                         label="Flors Under"
                         required={true}
                         onChange={(value) => {
-                          setFlorsUnder(value);
+                          formHandler("floorsUnder", value);
                         }}
                       />
                       <MiladiDatePicker
                         label="Created Date"
-                        value={createdDate}
-                        onChange={(date) => setCreatedDate(date)}
+                        value={formData.createdDate}
+                        onChange={(date) => formHandler("createdDate", date)}
                       />
                       <MiladiDatePicker
                         label="Service Date"
-                        value={serviceDate}
-                        onChange={(date) => setServiceDate(date)}
+                        value={formData.serviceDate}
+                        onChange={(date) => formHandler("serviceDate", date)}
                       />
 
                       <TextInput
-                        value={lng}
+                        value={formData.longitude}
                         label="Longitude"
                         required={true}
                         onChange={(value) => {
-                          setLng(value);
+                          formHandler("longitude", value);
                         }}
                       />
                       <TextInput
-                        value={impactFactor}
+                        value={formData.impactFactor}
                         label="Impact Factor"
                         required={true}
                         onChange={(value) => {
-                          setImpactFactor(value);
+                          formHandler("impactFactor", value);
                         }}
                       />
                       <TextArea
                         label="Address"
-                        value={address}
-                        onChange={(value) => setAddress(value)}
+                        value={formData.address}
+                        onChange={(value) => formHandler("address", value)}
                         required={true}
                         cols={5}
                       />
@@ -184,20 +180,19 @@ const GeneralInfo = () => {
               </div>
               <div className="col col-4">
                 <MapContainer
-                  center={position}
-                  zoom={6}
+                  center={[formData.latitude, formData.longitude]}
+                  zoom={11}
                   style={{ height: "565px", width: "100%" }}
                   onClick={handleMapClick}
+                  ref={mapRef}
                 >
                   <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                   />
-                  <Marker position={position}>
-                    <Popup>
-                      Your selected location: {position[0]}, {position[1]}
-                    </Popup>
-                  </Marker>
+                  <Marker
+                    position={[formData.latitude, formData.longitude]}
+                  ></Marker>
                 </MapContainer>
               </div>
             </div>
