@@ -9,22 +9,20 @@ import {
 } from "react-router-dom";
 import GeneralInfo from "./components/forms/general-info";
 import HospitalClassification from "./components/forms/hospital-classification";
+import Header from "./components/header";
 
 function App() {
   return (
-    <Routes>
-      {/* <Route path="/about">
-      <About />
-    </Route>
-    <Route path="/users">
-      <Users />
-    </Route> */}
-      <Route path="/" element={<GeneralInfo />} />
-      <Route
-        path="/hospital-classification"
-        element={<HospitalClassification />}
-      />
-    </Routes>
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={<GeneralInfo />} />
+        <Route
+          path="/hospital-classification"
+          element={<HospitalClassification />}
+        />
+      </Routes>
+    </>
   );
 }
 

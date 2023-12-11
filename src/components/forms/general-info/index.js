@@ -10,14 +10,15 @@ import TextArea from "../../elements/textArea";
 import {
   MapContainer,
   Marker,
-  Popup,
   TileLayer,
-  useMapEvents,
 } from "react-leaflet";
+import L from "leaflet"
 import "leaflet/dist/leaflet.css";
 import { floorsNoSetter, form } from "../../../redux/slices/forms";
 import { Link, useNavigate } from "react-router-dom";
 import { cities, states } from "../../elements/cityPicker";
+import marker from "../../../assets/images/marker.svg";
+
 
 const GeneralInfo = () => {
   const dispatch = useDispatch();
@@ -25,14 +26,14 @@ const GeneralInfo = () => {
   const formData = useSelector((state) => state.todos);
   const [allowContinue, setAllowContinue] = useState(false);
   const [cityOptions, setCityOptions] = useState([]);
-  const mapRef = useRef(null);
 
+  const markerIcon = new L.icon({
+    iconUrl:marker,
+    iconSize:[32 , 32],
+    iconAnchor:[16,32]
+  })
   const formHandler = (key, value) => {
     dispatch(form({ key, value }));
-  };
-  const handleMapClick = (e) => {
-    formHandler("latidude", e.latlng.lat);
-    formHandler("longitude", e.latlng.lng);
   };
   useEffect(() => {
     if (
@@ -106,7 +107,6 @@ const GeneralInfo = () => {
                         label="Province"
                         options={states}
                         onChange={(title) => {
-                          debugger;
                           formHandler("province", title);
                         }}
                       />
@@ -239,18 +239,17 @@ const GeneralInfo = () => {
               <div className="col col-4">
                 <MapContainer
                   center={[formData.latitude, formData.longitude]}
-                  zoom={11}
+                  zoom={6}
                   style={{ height: "565px", width: "100%" }}
-                  onClick={handleMapClick}
-                  ref={mapRef}
                 >
                   <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                   />
                   <Marker
                     position={[formData.latitude, formData.longitude]}
-                  ></Marker>
+                    icon={markerIcon}
+                  >
+                  </Marker>
                 </MapContainer>
               </div>
             </div>
@@ -265,23 +264,6 @@ const GeneralInfo = () => {
           </div>
         </div>
       </div>
-      {/* <div>
-        <form onSubmit={addTodoHandler}>
-          <input
-            type="text"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-          />
-          <button>Add todo</button>
-        </form>
-        <ul>
-          {todos.map((todo) => (
-            <li key={todo.id}>
-              <span>{todo.text}</span>
-            </li>
-          ))}
-        </ul>
-      </div> */}
     </section>
   );
 };

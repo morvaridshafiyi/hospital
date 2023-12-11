@@ -1,12 +1,12 @@
 import React from "react";
 import "./style.scss";
 
-const TextInput = ({ value, label, required, onChange }) => {
+const TextInput = ({ value, label, required, onChange , type }) => {
   return (
     <div className="input-field">
       <input
         value={value}
-        type="text"
+        type={type ? type :"text"}
         required={required}
         spellCheck="false"
         onChange={(e) => onChange(e.target.value)}

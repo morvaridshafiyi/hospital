@@ -1,6 +1,10 @@
-.hospital-classification{
-    .hospital-row{
-        display: flex;
-        
-    }
+@import "../../../assets/styles/colors.scss";
+.hospital-classification {
+  .title {
+    color: $black-100;
+    font-weight: bold;
+    padding-bottom: 8px;
+    padding-top: 16px;
+    display: flex;
+  }
 }
