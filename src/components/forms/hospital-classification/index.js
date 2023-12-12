@@ -15,8 +15,6 @@ const HospitalClassification = () => {
   const formHandler = (key, value) => {
     dispatch(form({ key, value }));
   };
-
-  const [standard, setStandard] = useState();
   const floorsOn = Array.from({ length: formData.floorsOn }, (value, index) => {
     return (
       <div className="container-fluid">
