@@ -9,11 +9,14 @@ import Switch from "../../elements/switch";
 import { useNavigate } from "react-router-dom";
 
 const HospitalClassification = () => {
-  const floors = useSelector((state) => state.todos);
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const formData = useSelector((state) => state.todos);
 
-  const [standard, setStandard] = useState();
-  const floorsOn = Array.from({ length: floors.floorsOn }, (value, index) => {
+  const formHandler = (key, value) => {
+    dispatch(form({ key, value }));
+  };
+  const floorsOn = Array.from({ length: formData.floorsOn }, (value, index) => {
+
     return (
       <div className="container-fluid">
         <div className="row">
