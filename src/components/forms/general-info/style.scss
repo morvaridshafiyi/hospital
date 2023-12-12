@@ -1,8 +1,9 @@
 @import "../../../assets/styles/colors.scss";
 .general-info {
+  border-width: 2;
   button.next {
     border-radius: 8px;
-    width: 40%;
+    width: 60%;
     margin: 0 auto;
     display: flex;
     justify-content: center;

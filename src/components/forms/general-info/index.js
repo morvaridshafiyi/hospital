@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { addTodo } from "../../../redux/slices/forms";
@@ -7,18 +7,13 @@ import SelectBox from "../../elements/selectBox";
 import TextInput from "../../elements/textInput";
 import MiladiDatePicker from "../../elements/datePicker";
 import TextArea from "../../elements/textArea";
-import {
-  MapContainer,
-  Marker,
-  TileLayer,
-} from "react-leaflet";
-import L from "leaflet"
+import { MapContainer, Marker, TileLayer } from "react-leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { floorsNoSetter, form } from "../../../redux/slices/forms";
 import { Link, useNavigate } from "react-router-dom";
 import { cities, states } from "../../elements/cityPicker";
 import marker from "../../../assets/images/marker.svg";
-
 
 const GeneralInfo = () => {
   const dispatch = useDispatch();
@@ -28,10 +23,10 @@ const GeneralInfo = () => {
   const [cityOptions, setCityOptions] = useState([]);
 
   const markerIcon = new L.icon({
-    iconUrl:marker,
-    iconSize:[32 , 32],
-    iconAnchor:[16,32]
-  })
+    iconUrl: marker,
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
+  });
   const formHandler = (key, value) => {
     dispatch(form({ key, value }));
   };
@@ -93,12 +88,20 @@ const GeneralInfo = () => {
               <div className="col col-8">
                 <div className="container-fluid">
                   <div className="row">
-                    <div className="col col-12">
+                    <div className="col col-6">
                       <TextInput
                         value={formData.hospitalName}
                         label={"Hospital Name"}
                         required={true}
                         onChange={(value) => formHandler("hospitalName", value)}
+                      />
+                    </div>
+                    <div className="col col-6">
+                      <TextInput
+                        value={formData.block}
+                        required={true}
+                        label={"Block"}
+                        onChange={(value) => formHandler("block", value)}
                       />
                     </div>
                     <div className="col col-6">
@@ -204,19 +207,24 @@ const GeneralInfo = () => {
                       />
                     </div>
                     <div className="col col-4">
-                      <TextInput
+                      <SelectBox
                         value={formData.impactFactor}
                         label="Impact Factor"
-                        required={true}
-                        onChange={(value) => {
-                          formHandler("impactFactor", value);
+                        options={[
+                          { title: "0/2" },
+                          { title: "0.5" },
+                          { title: "0.75" },
+                          { title: "1.2" },
+                        ]}
+                        onChange={(title) => {
+                          formHandler("impactFactor", title);
                         }}
                       />
                     </div>
                     <div className="col col-4">
                       <TextInput
                         value={formData.unitPrice}
-                        label="Unit Price"
+                        label="Unit Price (Million IRR)"
                         required={true}
                         onChange={(value) => {
                           formHandler("unitPrice", value);
@@ -227,7 +235,12 @@ const GeneralInfo = () => {
                       <SelectBox
                         value={formData.soilType}
                         label="Soil Type"
-                        options={[{ title: "option1" }, { title: "option2" }]}
+                        options={[
+                          { title: "I" },
+                          { title: "II" },
+                          { title: "III" },
+                          { title: "IV" },
+                        ]}
                         onChange={(title) => {
                           formHandler("soilType", title);
                         }}
@@ -242,14 +255,11 @@ const GeneralInfo = () => {
                   zoom={6}
                   style={{ height: "565px", width: "100%" }}
                 >
-                  <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  />
+                  <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                   <Marker
                     position={[formData.latitude, formData.longitude]}
                     icon={markerIcon}
-                  >
-                  </Marker>
+                  ></Marker>
                 </MapContainer>
               </div>
             </div>
