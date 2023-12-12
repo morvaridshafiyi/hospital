@@ -4,7 +4,6 @@ export const todoSlice = createSlice({
   name: "todos",
   initialState: {
     hospitalName: "",
-    block: "",
     province: "",
     city: "",
     floorsUnder: "",
@@ -19,14 +18,6 @@ export const todoSlice = createSlice({
     unitPrice: "",
     soilType: "",
     address: "",
-
-    standardEdition: "",
-    irregularityVertical: false,
-    irregularityPlan: false,
-    controlSystem: "",
-    material: "",
-    lateralLoadResistantX: "",
-    lateralLoadResistantY: "",
     
     floorsNo: "",
   },

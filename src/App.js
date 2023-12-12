@@ -10,6 +10,7 @@ import {
 import GeneralInfo from "./components/forms/general-info";
 import HospitalClassification from "./components/forms/hospital-classification";
 import Header from "./components/header";
+import Components from "./components/forms/components";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           path="/hospital-classification"
           element={<HospitalClassification />}
         />
+        <Route path="/components" element={<Components />} />
       </Routes>
     </>
   );
