@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import "./style.scss";
 import TextInput from "../../elements/textInput";
 import Breadcrumb from "../../breadcrumb";
@@ -6,7 +6,7 @@ import RadioButton from "../../elements/radioButton";
 import { useState } from "react";
 import SelectBox from "../../elements/selectBox";
 import Switch from "../../elements/switch";
-import { form } from "../../../redux/slices/forms";
+import { useNavigate } from "react-router-dom";
 
 const HospitalClassification = () => {
   const dispatch = useDispatch();
@@ -16,6 +16,7 @@ const HospitalClassification = () => {
     dispatch(form({ key, value }));
   };
   const floorsOn = Array.from({ length: formData.floorsOn }, (value, index) => {
+
     return (
       <div className="container-fluid">
         <div className="row">
@@ -50,7 +51,7 @@ const HospitalClassification = () => {
     );
   }).reverse();
   const floorsUnder = Array.from(
-    { length: formData.floorsUnder },
+    { length: floors.floorsUnder },
     (value, index) => {
       return (
         <div className="container-fluid">
@@ -85,6 +86,12 @@ const HospitalClassification = () => {
       );
     }
   );
+  const Next = () => {
+    navigate("/components");
+  };
+  const Back = () => {
+    navigate("/");
+  };
   return (
     <section className="hospital-classification">
       <div className="container">
@@ -119,7 +126,7 @@ const HospitalClassification = () => {
                       name: "standard",
                     },
                   ]}
-                  onChange={(value) => formHandler("standardEdition", value)}
+                  onChange={(value) => setStandard(value)}
                 />
                 <span className="title">irregularity</span>
                 <Switch label="Vertical" />
@@ -139,51 +146,48 @@ const HospitalClassification = () => {
                       label: "Active Control",
                       name: "Structural",
                     },
-                    {
-                      label: "Semi Active",
-                      name: "Structural",
-                    },
                   ]}
-                  onChange={(value) => formHandler("controlSystem", value)}
+                  onChange={(value) => setStandard(value)}
                 />
               </div>
               <div className="col col-4">
                 <span className="title">Material</span>
                 <SelectBox
-                  value={formData.irregularityVertical}
+                  value={""}
                   label="Material"
-                  options={[
-                    { title: "Reinforced Concrete" },
-                    { title: "Steel" },
-                    { title: "Masonry" },
-                  ]}
-                  onChange={(title) =>
-                    formHandler("irregularityVertical", title)
-                  }
+                  options={[{ title: "option1" }, { title: "option2" }]}
+                  onChange={(title) => {}}
                 />
                 <span className="title">Lateral Load Resistant System</span>
                 <SelectBox
-                  value={formData.lateralLoadResistantX}
+                  value={""}
                   label="X Direction"
-                  options={[
-                    { title: "Momemt Frames" },
-                    { title: "Shear Walls" },
-                    { title: "Braced Frames" },
-                    { title: "Combinations" },
-                  ]}
-                  onChange={(title) =>
-                    formHandler("lateralLoadResistantX", title)
-                  }
+                  options={[{ title: "option1" }, { title: "option2" }]}
+                  onChange={(title) => {}}
                 />
                 <SelectBox
-                  value={formData.lateralLoadResistantY}
+                  value={""}
                   label="Y Direction"
                   options={[{ title: "option1" }, { title: "option2" }]}
-                  onChange={(title) =>
-                    formHandler("lateralLoadResistantY", title)
-                  }
+                  onChange={(title) => {}}
                 />
               </div>
+            </div>
+          </div>
+          <div className="col col-12">
+            <div className="btns">
+              <button
+                className={`back ${1 === 1 ? "" : "disable"}`}
+                onClick={1 === 1 ? Back : null}
+              >
+                Back
+              </button>
+              <button
+                className={`next ${1 === 1 ? "" : "disable"}`}
+                onClick={1 === 1 ? Next : null}
+              >
+                Next
+              </button>
             </div>
           </div>
         </div>
