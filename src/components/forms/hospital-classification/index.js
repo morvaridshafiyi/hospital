@@ -4,7 +4,7 @@ import TextInput from "../../elements/textInput";
 import Breadcrumb from "../../breadcrumb";
 import RadioButton from "../../elements/radioButton";
 import { useState } from "react";
-import {form} from '../../../redux/slices/forms'
+import { form } from "../../../redux/slices/forms";
 import SelectBox from "../../elements/selectBox";
 import Switch from "../../elements/switch";
 import { useNavigate } from "react-router-dom";
@@ -12,13 +12,12 @@ import { useNavigate } from "react-router-dom";
 const HospitalClassification = () => {
   const dispatch = useDispatch();
   const formData = useSelector((state) => state.todos);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const formHandler = (key, value) => {
     dispatch(form({ key, value }));
   };
   const floorsOn = Array.from({ length: formData.floorsOn }, (value, index) => {
-
     return (
       <div className="container-fluid">
         <div className="row">
@@ -108,7 +107,7 @@ const HospitalClassification = () => {
                 {floorsUnder}
               </div>
               <div className="col col-4">
-              <RadioButton
+                <RadioButton
                   title="Standard 2800 Edition"
                   items={[
                     {
@@ -131,8 +130,11 @@ const HospitalClassification = () => {
                   onChange={(value) => formHandler("standardEdition", value)}
                 />
                 <span className="title">irregularity</span>
-                <Switch label="Vertical" />
-                <Switch label="Plan" />
+                <Switch
+                  label="Vertical"
+                  onClick={(value) => console.log(!value)}
+                />
+                <Switch label="Plan" onClick={(value) => console.log(!value)} />
                 <RadioButton
                   title="Structural Control System"
                   items={[
