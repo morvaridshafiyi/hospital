@@ -3,8 +3,10 @@ import SelectBox from "../../elements/selectBox";
 import TextInput from "../../elements/textInput";
 import "./style.scss";
 import { IoTrashBinOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 const Components = () => {
+  const navigate = useNavigate();
   const [floorNo, setFloorNo] = useState();
   const [count, setCount] = useState();
   const [components, setComponents] = useState();
@@ -31,7 +33,7 @@ const Components = () => {
       serviceYears: serviceYears,
     };
     setComponentsList([...componentsList, item]);
-    emptyAllState()
+    emptyAllState();
   };
 
   const removeComponent = (index) => {
@@ -167,6 +169,14 @@ const Components = () => {
                 </div>
               );
             })}
+          </div>
+          <div className="col col-12">
+            <button
+              className={`next-page ${1 === 1 ? "" : "disable"}`}
+              onClick={() => navigate("/view")}
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>

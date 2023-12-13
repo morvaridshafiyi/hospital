@@ -11,6 +11,7 @@ import GeneralInfo from "./components/forms/general-info";
 import HospitalClassification from "./components/forms/hospital-classification";
 import Header from "./components/header";
 import Components from "./components/forms/components";
+import View from "./components/view";
 
 function App() {
   return (
@@ -23,6 +24,8 @@ function App() {
           element={<HospitalClassification />}
         />
         <Route path="/components" element={<Components />} />
+        <Route path="/view" element={<View />} />
+
       </Routes>
     </>
   );
