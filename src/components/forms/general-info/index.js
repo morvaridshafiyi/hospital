@@ -93,12 +93,20 @@ const GeneralInfo = () => {
               <div className="col col-8">
                 <div className="container-fluid">
                   <div className="row">
-                    <div className="col col-12">
+                    <div className="col col-6">
                       <TextInput
                         value={formData.hospitalName}
                         label={"Hospital Name"}
                         required={true}
                         onChange={(value) => formHandler("hospitalName", value)}
+                      />
+                    </div>
+                    <div className="col col-6">
+                      <TextInput
+                        value={formData.block}
+                        required={true}
+                        label={"Block"}
+                        onChange={(value) => formHandler("block", value)}
                       />
                     </div>
                     <div className="col col-6">
@@ -151,7 +159,6 @@ const GeneralInfo = () => {
                         onChange={(value) => {
                           formHandler("floorsOn", value);
                         }}
-                        type={"number"}
                       />
                     </div>
                     <div className="col col-6">
@@ -162,7 +169,6 @@ const GeneralInfo = () => {
                         onChange={(value) => {
                           formHandler("floorsUnder", value);
                         }}
-                        type={"number"}
                       />
                     </div>
 
@@ -203,23 +209,27 @@ const GeneralInfo = () => {
                         onChange={(value) => {
                           formHandler("bedsNumber", value);
                         }}
-                        type={"number"}
                       />
                     </div>
                     <div className="col col-4">
-                      <TextInput
+                      <SelectBox
                         value={formData.impactFactor}
                         label="Impact Factor"
-                        required={true}
-                        onChange={(value) => {
-                          formHandler("impactFactor", value);
+                        options={[
+                          { title: "0/2" },
+                          { title: "0.5" },
+                          { title: "0.75" },
+                          { title: "1.2" },
+                        ]}
+                        onChange={(title) => {
+                          formHandler("impactFactor", title);
                         }}
                       />
                     </div>
                     <div className="col col-4">
                       <TextInput
                         value={formData.unitPrice}
-                        label="Unit Price"
+                        label="Unit Price (Million IRR)"
                         required={true}
                         onChange={(value) => {
                           formHandler("unitPrice", value);
@@ -229,8 +239,13 @@ const GeneralInfo = () => {
                     <div className="col col-12">
                       <SelectBox
                         value={formData.soilType}
-                        label="Components"
-                        options={[{ title: "option1" }, { title: "option2" }]}
+                        label="Soil Type"
+                        options={[
+                          { title: "I" },
+                          { title: "II" },
+                          { title: "III" },
+                          { title: "IV" },
+                        ]}
                         onChange={(title) => {
                           formHandler("soilType", title);
                         }}
@@ -245,18 +260,16 @@ const GeneralInfo = () => {
                   zoom={6}
                   style={{ height: "565px", width: "100%" }}
                 >
-                  <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  />
+                  <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                   <Marker
                     position={[formData.latitude, formData.longitude]}
                     icon={markerIcon}
-                  >
-                  </Marker>
+                  ></Marker>
                 </MapContainer>
               </div>
             </div>
           </div>
+
           <div className="col col-12">
             <button
               className={`next ${allowContinue ? "" : "disable"}`}

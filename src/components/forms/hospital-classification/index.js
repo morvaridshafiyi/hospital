@@ -1,9 +1,10 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import "./style.scss";
 import TextInput from "../../elements/textInput";
 import Breadcrumb from "../../breadcrumb";
 import RadioButton from "../../elements/radioButton";
 import { useState } from "react";
+import {form} from '../../../redux/slices/forms'
 import SelectBox from "../../elements/selectBox";
 import Switch from "../../elements/switch";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 const HospitalClassification = () => {
   const dispatch = useDispatch();
   const formData = useSelector((state) => state.todos);
+  const navigate = useNavigate()
 
   const formHandler = (key, value) => {
     dispatch(form({ key, value }));
@@ -51,7 +53,7 @@ const HospitalClassification = () => {
     );
   }).reverse();
   const floorsUnder = Array.from(
-    { length: floors.floorsUnder },
+    { length: formData.floorsUnder },
     (value, index) => {
       return (
         <div className="container-fluid">
@@ -106,7 +108,7 @@ const HospitalClassification = () => {
                 {floorsUnder}
               </div>
               <div className="col col-4">
-                <RadioButton
+              <RadioButton
                   title="Standard 2800 Edition"
                   items={[
                     {
@@ -126,7 +128,7 @@ const HospitalClassification = () => {
                       name: "standard",
                     },
                   ]}
-                  onChange={(value) => setStandard(value)}
+                  onChange={(value) => formHandler("standardEdition", value)}
                 />
                 <span className="title">irregularity</span>
                 <Switch label="Vertical" />
@@ -146,30 +148,49 @@ const HospitalClassification = () => {
                       label: "Active Control",
                       name: "Structural",
                     },
+                    {
+                      label: "Semi Active",
+                      name: "Structural",
+                    },
                   ]}
-                  onChange={(value) => setStandard(value)}
+                  onChange={(value) => formHandler("controlSystem", value)}
                 />
               </div>
               <div className="col col-4">
                 <span className="title">Material</span>
                 <SelectBox
-                  value={""}
+                  value={formData.irregularityVertical}
                   label="Material"
-                  options={[{ title: "option1" }, { title: "option2" }]}
-                  onChange={(title) => {}}
+                  options={[
+                    { title: "Reinforced Concrete" },
+                    { title: "Steel" },
+                    { title: "Masonry" },
+                  ]}
+                  onChange={(title) =>
+                    formHandler("irregularityVertical", title)
+                  }
                 />
                 <span className="title">Lateral Load Resistant System</span>
                 <SelectBox
-                  value={""}
+                  value={formData.lateralLoadResistantX}
                   label="X Direction"
-                  options={[{ title: "option1" }, { title: "option2" }]}
-                  onChange={(title) => {}}
+                  options={[
+                    { title: "Momemt Frames" },
+                    { title: "Shear Walls" },
+                    { title: "Braced Frames" },
+                    { title: "Combinations" },
+                  ]}
+                  onChange={(title) =>
+                    formHandler("lateralLoadResistantX", title)
+                  }
                 />
                 <SelectBox
-                  value={""}
+                  value={formData.lateralLoadResistantY}
                   label="Y Direction"
                   options={[{ title: "option1" }, { title: "option2" }]}
-                  onChange={(title) => {}}
+                  onChange={(title) =>
+                    formHandler("lateralLoadResistantY", title)
+                  }
                 />
               </div>
             </div>
