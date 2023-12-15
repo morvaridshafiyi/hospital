@@ -1,109 +1,125 @@
 import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import SelectBox from "../../elements/selectBox";
 import TextInput from "../../elements/textInput";
 import "./style.scss";
 import { IoTrashBinOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import {
+  form,
+  setComponentsList,
+  clearForm,
+  removeComponent,
+} from "../../../redux/slices/forms";
+import Breadcrumb from "../../breadcrumb";
 
 const Components = () => {
   const navigate = useNavigate();
-  const [floorNo, setFloorNo] = useState();
-  const [count, setCount] = useState();
-  const [components, setComponents] = useState();
-  const [cost, setCost] = useState();
-  const [isEmbraced, setIsEmbraced] = useState();
-  const [serviceYears, setServiceYears] = useState();
-  const [componentsList, setComponentsList] = useState([]);
+  const dispatch = useDispatch();
+  const formData = useSelector((state) => state.todos);
+  const [localForm, setLocalForm] = useState({
+    floorNumber: "",
+    count: "",
+    component: "",
+    cost: "",
+    isEmbraced: "",
+    serviceYears: "",
+  });
 
-  const emptyAllState = () => {
-    setFloorNo("");
-    setCount("");
-    setComponents("");
-    setCost("");
-    setIsEmbraced("");
-    setServiceYears("");
+  const formHandler = (key, value) => {
+    setLocalForm((prevForm) => ({
+      ...prevForm,
+      [key]: value,
+    }));
   };
   const saveComponent = () => {
     const item = {
-      floorNo: floorNo,
-      count: count,
-      components: components,
-      cost: cost,
-      isEmbraced: isEmbraced,
-      serviceYears: serviceYears,
+      floorNo: localForm.floorNumber,
+      count: localForm.count,
+      component: localForm.component,
+      cost: localForm.cost,
+      isEmbraced: localForm.isEmbraced,
+      serviceYears: localForm.serviceYears,
     };
-    setComponentsList([...componentsList, item]);
-    emptyAllState();
+    dispatch(setComponentsList(item));
+
+    setLocalForm({
+      floorNumber: "",
+      count: "",
+      component: "",
+      cost: "",
+      isEmbraced: "",
+      serviceYears: "",
+    });
+  };
+  const emptyForm = {
+    floorNumber: "",
+    count: "",
+    component: "",
+    cost: "",
+    isEmbraced: "",
+    serviceYears: "",
   };
 
-  const removeComponent = (index) => {
-    const updatedItems = [...componentsList];
-    updatedItems.splice(index, 1);
-    setComponentsList(updatedItems);
+  const removeComponentItem = (index) => {
+    dispatch(removeComponent(index));
   };
-
+  const Next = () => {
+    navigate("/view");
+  };
   return (
     <section className="components">
       <div className="container">
         <div className="row">
+          <div className="col col-12">
+            <Breadcrumb activeStep={3} />
+          </div>
           <div className="col col-6">
             <span className="title">add component</span>
             <TextInput
-              value={floorNo}
+              value={localForm.floorNumber}
               label="Floor Number"
               required={true}
-              onChange={(value) => {
-                setFloorNo(value);
-              }}
+              onChange={(value) => formHandler("floorNumber", value)}
               type={"number"}
             />
             <TextInput
-              value={count}
+              value={localForm.count}
               label="Count"
               required={true}
-              onChange={(value) => {
-                setCount(value);
-              }}
+              onChange={(value) => formHandler("count", value)}
               type={"number"}
             />
             <SelectBox
-              value={components}
+              value={localForm.component}
               label="Components"
               options={[{ title: "option1" }, { title: "option2" }]}
-              onChange={(title) => {
-                setComponents(title);
-              }}
+              onChange={(value) => formHandler("component", value)}
             />
             <TextInput
-              value={cost}
+              value={localForm.cost}
               label="Cost"
               required={true}
-              onChange={(value) => {
-                setCost(value);
-              }}
+              onChange={(value) => formHandler("cost", value)}
               type={"number"}
             />
             <SelectBox
-              value={isEmbraced}
+              value={localForm.isEmbraced}
               label="Is Embraced"
-              options={[{ title: "option1" }, { title: "option2" }]}
-              onChange={(title) => {
-                setIsEmbraced(title);
-              }}
+              options={[{ title: "true" }, { title: "false" }]}
+              onChange={(value) => formHandler("isEmbraced", value)}
             />
             <TextInput
-              value={serviceYears}
+              value={localForm.serviceYears}
               label="Sevice Years"
               required={true}
-              onChange={(value) => {
-                setServiceYears(value);
-              }}
+              onChange={(value) => formHandler("serviceYears", value)}
               type={"number"}
             />
             <div className="btns">
               <button
                 className={`back ${1 === 1 ? "" : "disable"}`}
-                onClick={emptyAllState}
+                onClick={() => setLocalForm(emptyForm)}
               >
                 Cancel
               </button>
@@ -116,67 +132,76 @@ const Components = () => {
             </div>
           </div>
           <div className="col col-6">
-            {componentsList.map((item) => {
-              return (
-                <div className="item">
-                  <div className="container-fluid">
-                    <div className="row">
-                      <div className="col col-6">
-                        <div className="item-row">
-                          <span className="label">Floor Number:</span>{" "}
-                          <span className="value">{item.floorNo}</span>
+            {formData.components &&
+              formData.components?.map((item) => {
+                return (
+                  <div className="item">
+                    <div className="container-fluid">
+                      <div className="row">
+                        <div className="col col-6">
+                          <div className="item-row">
+                            <span className="label">Floor Number:</span>{" "}
+                            <span className="value">{item.floorNo}</span>
+                          </div>
                         </div>
-                      </div>
-                      <div className="col col-6">
-                        <div className="item-row">
-                          <span className="label">Count:</span>{" "}
-                          <span className="value">{item.count}</span>
+                        <div className="col col-6">
+                          <div className="item-row">
+                            <span className="label">Count:</span>{" "}
+                            <span className="value">{item.count}</span>
+                          </div>
                         </div>
-                      </div>
-                      <div className="col col-6">
-                        <div className="item-row">
-                          <span className="label">Coponent:</span>{" "}
-                          <span className="value">{item.components}</span>
+                        <div className="col col-6">
+                          <div className="item-row">
+                            <span className="label">Coponent:</span>{" "}
+                            <span className="value">{item.component}</span>
+                          </div>
                         </div>
-                      </div>
-                      <div className="col col-6">
-                        <div className="item-row">
-                          <span className="label">Cost:</span>{" "}
-                          <span className="value">{item.cost}</span>
+                        <div className="col col-6">
+                          <div className="item-row">
+                            <span className="label">Cost:</span>{" "}
+                            <span className="value">{item.cost}</span>
+                          </div>
                         </div>
-                      </div>
-                      <div className="col col-6">
-                        <div className="item-row">
-                          <span className="label">isEmbraced:</span>{" "}
-                          <span className="value">{item.isEmbraced}</span>
+                        <div className="col col-6">
+                          <div className="item-row">
+                            <span className="label">isEmbraced:</span>{" "}
+                            <span className="value">{item.isEmbraced}</span>
+                          </div>
                         </div>
-                      </div>
-                      <div className="col col-6">
-                        <div className="item-row">
-                          <span className="label">service Years:</span>{" "}
-                          <span className="value">{item.serviceYears}</span>
+                        <div className="col col-6">
+                          <div className="item-row">
+                            <span className="label">service Years:</span>{" "}
+                            <span className="value">{item.serviceYears}</span>
+                          </div>
                         </div>
                       </div>
                     </div>
+                    <i
+                      onClick={() =>
+                        removeComponentItem(formData.components.indexOf(item))
+                      }
+                    >
+                      <IoTrashBinOutline />
+                    </i>
                   </div>
-                  <i
-                    onClick={() =>
-                      removeComponent(componentsList.indexOf(item))
-                    }
-                  >
-                    <IoTrashBinOutline />
-                  </i>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
           <div className="col col-12">
-            <button
-              className={`next-page ${1 === 1 ? "" : "disable"}`}
-              onClick={() => navigate("/view")}
-            >
-              Next
-            </button>
+            <div className="btns">
+              <button
+                className="back"
+                onClick={() => navigate("/hospital-classification")}
+              >
+                Back
+              </button>
+              <button
+                className={`next ${1 == 1 ? "" : "disable"}`}
+                onClick={1 === 1 ? Next : null}
+              >
+                Next
+              </button>
+            </div>
           </div>
         </div>
       </div>

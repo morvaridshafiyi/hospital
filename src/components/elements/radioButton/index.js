@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.scss";
 
-const RadioButton = ({items, title, onChange}) => {
+const RadioButton = ({ items, title, onChange, value }) => {
   return (
     <div className="radio-button" onChange={(e) => onChange(e.target.value)}>
       <span className="title">{title}</span>
@@ -9,7 +9,12 @@ const RadioButton = ({items, title, onChange}) => {
         ? items.map((item) => {
             return (
               <div className="item">
-                <input type="radio" value={item.label} name={item.name} />{" "}
+                <input
+                  type="radio"
+                  checked={item.label === value ? true : false}
+                  value={item.label}
+                  name={item.name}
+                />{" "}
                 {item.label}
               </div>
             );

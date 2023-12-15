@@ -18,13 +18,43 @@ export const todoSlice = createSlice({
     unitPrice: "",
     soilType: "",
     address: "",
-    
+
     floorsNo: "",
+    standardEdition: "",
+    controlSystem: "",
+    material: "",
+    lateralLoadResistantX: "",
+    lateralLoadResistantY: "",
+    vertical: false,
+    plan: false,
+    components: [],
+    classification: {},
   },
   reducers: {
-    form: (state , action) => {
+    form: (state, action) => {
       const { key, value } = action.payload;
       state[key] = value;
+    },
+    setComponentsList: (state, action) => {
+      state.components.push(action.payload)
+      // state.todos.components = action.payload;
+    },
+    removeComponent:(state , action)=>{
+      // debugger
+      state.components = state.components.filter((_, index) => index !== action.payload);
+    },
+    clearForm: (state) => {
+      state.todos = {
+        hospitalName: "",
+        floorNumber: "",
+        count: "",
+        component: "",
+        cost: "",
+        isEmbraced: "",
+        serviceYears: "",
+        // ... (other fields)
+        components: [],
+      };
     },
     floorsNoSetter: (state, action) => {
       state.floorsNo = action.payload;
@@ -33,7 +63,8 @@ export const todoSlice = createSlice({
 });
 
 // this is for dispatch
-export const { floorsNoSetter, form } = todoSlice.actions;
+export const { floorsNoSetter, form, setComponentsList, clearForm ,removeComponent} =
+  todoSlice.actions;
 
 // this is for configureStore
 export default todoSlice.reducer;

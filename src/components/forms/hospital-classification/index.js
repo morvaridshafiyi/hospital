@@ -3,7 +3,7 @@ import "./style.scss";
 import TextInput from "../../elements/textInput";
 import Breadcrumb from "../../breadcrumb";
 import RadioButton from "../../elements/radioButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { form } from "../../../redux/slices/forms";
 import SelectBox from "../../elements/selectBox";
 import Switch from "../../elements/switch";
@@ -13,80 +13,131 @@ const HospitalClassification = () => {
   const dispatch = useDispatch();
   const formData = useSelector((state) => state.todos);
   const navigate = useNavigate();
-
+  const [floors, setFloors] = useState([]);
+  const [allowContinue, setAllowContinue] = useState(false);
   const formHandler = (key, value) => {
     dispatch(form({ key, value }));
   };
-  const floorsOn = Array.from({ length: formData.floorsOn }, (value, index) => {
-    return (
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col col-4">
-            <TextInput
-              label="Floor"
-              value={index++}
-              required={true}
-              onChange={(value) => {}}
-            />
-          </div>
+  useEffect(() => {
+    const arrayInstance = [];
+    Array.from({ length: parseInt(formData.floorsUnder) }, (value, index) => {
+      arrayInstance.push({
+        index: -index - 1,
+        floor: 0,
+        height: "",
+        area: "",
+      });
+    });
+    Array.from({ length: parseInt(formData.floorsOn) }, (value, index) => {
+      arrayInstance.push({
+        index: index++,
+        floor: 0,
+        height: "",
+        area: "",
+      });
+    });
+    setFloors(arrayInstance);
+  }, []);
 
-          <div className="col col-4">
-            <TextInput
-              label="Floor Height"
-              value={""}
-              required={true}
-              onChange={(value) => {}}
-            />
-          </div>
-          <div className="col col-4">
-            <TextInput
-              label="Floor Area"
-              value={""}
-              required={true}
-              onChange={(value) => {}}
-              type={"number"}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  }).reverse();
-  const floorsUnder = Array.from(
-    { length: formData.floorsUnder },
-    (value, index) => {
-      return (
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col col-4">
-              <TextInput
-                label="Floor"
-                value={-index - 1}
-                required={true}
-                onChange={(value) => {}}
-              />
-            </div>
-            <div className="col col-4">
-              <TextInput
-                label="Floor Height"
-                value={""}
-                required={true}
-                onChange={(value) => {}}
-              />
-            </div>
-            <div className="col col-4">
-              <TextInput
-                label="Floor Area"
-                value={""}
-                required={true}
-                onChange={(value) => {}}
-                type={"number"}
-              />
-            </div>
-          </div>
-        </div>
-      );
+  useEffect(() => {
+    if (
+      formData.standardEdition &&
+      formData.controlSystem &&
+      formData.material &&
+      formData.lateralLoadResistantX &&
+      formData.lateralLoadResistantY
+    ) {
+      setAllowContinue(true);
+    } else {
+      setAllowContinue(false);
     }
-  );
+  }, [
+    formData.standardEdition,
+    formData.controlSystem,
+    formData.material,
+    formData.lateralLoadResistantX,
+    formData.lateralLoadResistantY,
+  ]);
+  // const floorsOn = Array.from({ length: formData.floorsOn }, (value, index) => {
+  //   return (
+  //     <div className="container-fluid">
+  //       <div className="row">
+  //         <div className="col col-4">
+  //           <TextInput
+  //             label="Floor"
+  //             value={index++}
+  //             required={true}
+  //             onChange={(value) => {}}
+  //           />
+  //         </div>
+
+  //         <div className="col col-4">
+  //           <TextInput
+  //             label="Floor Height"
+  //             value={""}
+  //             required={true}
+  //             onChange={(value) => {}}
+  //           />
+  //         </div>
+  //         <div className="col col-4">
+  //           <TextInput
+  //             label="Floor Area"
+  //             value={""}
+  //             required={true}
+  //             onChange={(value) => {}}
+  //             type={"number"}
+  //           />
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }).reverse();
+  // const floorsUnder = Array.from(
+  //   { length: formData.floorsUnder },
+  //   (value, index) => {
+  //     return (
+  //       <div className="container-fluid">
+  //         <div className="row">
+  //           <div className="col col-4">
+  //             <TextInput
+  //               label="Floor"
+  //               value={-index - 1}
+  //               required={true}
+  //               onChange={(value) => {}}
+  //             />
+  //           </div>
+  //           <div className="col col-4">
+  //             <TextInput
+  //               label="Floor Height"
+  //               value={""}
+  //               required={true}
+  //               onChange={(value) => {}}
+  //             />
+  //           </div>
+  //           <div className="col col-4">
+  //             <TextInput
+  //               label="Floor Area"
+  //               value={""}
+  //               required={true}
+  //               onChange={(value) => {}}
+  //               type={"number"}
+  //             />
+  //           </div>
+  //         </div>
+  //       </div>
+  //     );
+  //   }
+  // );
+
+  const changeRow = (item, key, value) => {
+    const floor = floors.find((obj) => obj.index === item.index);
+
+    floor[key] = value;
+    const updatedFloor = floors.map((item) =>
+      item.index === floor.index ? { ...item, ...floor } : item
+    );
+    setFloors(updatedFloor);
+  };
   const Next = () => {
     navigate("/components");
   };
@@ -100,114 +151,161 @@ const HospitalClassification = () => {
           <div className="col col-12">
             <Breadcrumb activeStep={2} />
           </div>
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col col-4">
-                {floorsOn}
-                {floorsUnder}
-              </div>
-              <div className="col col-4">
-                <RadioButton
-                  title="Standard 2800 Edition"
-                  items={[
-                    {
-                      label: "V1",
-                      name: "standard",
-                    },
-                    {
-                      label: "V2",
-                      name: "standard",
-                    },
-                    {
-                      label: "V3",
-                      name: "standard",
-                    },
-                    {
-                      label: "V4",
-                      name: "standard",
-                    },
-                  ]}
-                  onChange={(value) => formHandler("standardEdition", value)}
-                />
-                <span className="title">irregularity</span>
-                <Switch
-                  label="Vertical"
-                  onClick={(value) => console.log(!value)}
-                />
-                <Switch label="Plan" onClick={(value) => console.log(!value)} />
-                <RadioButton
-                  title="Structural Control System"
-                  items={[
-                    {
-                      label: "none",
-                      name: "Structural",
-                    },
-                    {
-                      label: "Passive Control",
-                      name: "Structural",
-                    },
-                    {
-                      label: "Active Control",
-                      name: "Structural",
-                    },
-                    {
-                      label: "Semi Active",
-                      name: "Structural",
-                    },
-                  ]}
-                  onChange={(value) => formHandler("controlSystem", value)}
-                />
-              </div>
-              <div className="col col-4">
-                <span className="title">Material</span>
-                <SelectBox
-                  value={formData.irregularityVertical}
-                  label="Material"
-                  options={[
-                    { title: "Reinforced Concrete" },
-                    { title: "Steel" },
-                    { title: "Masonry" },
-                  ]}
-                  onChange={(title) =>
-                    formHandler("irregularityVertical", title)
-                  }
-                />
-                <span className="title">Lateral Load Resistant System</span>
-                <SelectBox
-                  value={formData.lateralLoadResistantX}
-                  label="X Direction"
-                  options={[
-                    { title: "Momemt Frames" },
-                    { title: "Shear Walls" },
-                    { title: "Braced Frames" },
-                    { title: "Combinations" },
-                  ]}
-                  onChange={(title) =>
-                    formHandler("lateralLoadResistantX", title)
-                  }
-                />
-                <SelectBox
-                  value={formData.lateralLoadResistantY}
-                  label="Y Direction"
-                  options={[{ title: "option1" }, { title: "option2" }]}
-                  onChange={(title) =>
-                    formHandler("lateralLoadResistantY", title)
-                  }
-                />
+          <div className="col col-12">
+            <div className="container-fluid">
+              <div className="row">
+                <div className="col col-5">
+                  {/* {floorsOn}
+                {floorsUnder} */}
+                  {floors.map((item) => {
+                    return (
+                      <div className="container-fluid">
+                        <div className="row">
+                          <div className="col col-4">
+                            <TextInput
+                              label="Floor"
+                              value={item.index}
+                              required={true}
+                              onChange={(value) => {}}
+                            />
+                          </div>
+
+                          <div className="col col-4">
+                            <TextInput
+                              label="Floor Height"
+                              value={item.height}
+                              required={true}
+                              onChange={(value) => {
+                                changeRow(item, "height", value);
+                              }}
+                            />
+                          </div>
+                          <div className="col col-4">
+                            <TextInput
+                              label="Floor Area"
+                              value={item.area}
+                              required={true}
+                              onChange={(value) => {
+                                changeRow(item, "area", value);
+                              }}
+                              type={"number"}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="col col-3">
+                  <RadioButton
+                    title="Standard 2800 Edition"
+                    items={[
+                      {
+                        label: "V1",
+                        name: "standard",
+                      },
+                      {
+                        label: "V2",
+                        name: "standard",
+                      },
+                      {
+                        label: "V3",
+                        name: "standard",
+                      },
+                      {
+                        label: "V4",
+                        name: "standard",
+                      },
+                    ]}
+                    onChange={(value) => formHandler("standardEdition", value)}
+                    value={formData.standardEdition}
+                  />
+                  <span className="title">irregularity</span>
+                  <Switch
+                    isChecked={formData.vertical}
+                    label="Vertical"
+                    onChange={(value) => formHandler("vertical", value)}
+                  />
+                  <Switch
+                    isChecked={formData.plan}
+                    label="Plan"
+                    onChange={(value) => formHandler("plan", value)}
+                  />
+                  <RadioButton
+                    title="Structural Control System"
+                    items={[
+                      {
+                        label: "none",
+                        name: "Structural",
+                      },
+                      {
+                        label: "Passive Control",
+                        name: "Structural",
+                      },
+                      {
+                        label: "Active Control",
+                        name: "Structural",
+                      },
+                      {
+                        label: "Semi Active",
+                        name: "Structural",
+                      },
+                    ]}
+                    value={formData.controlSystem}
+                    onChange={(value) => formHandler("controlSystem", value)}
+                  />
+                </div>
+                <div className="col col-4">
+                  <span className="title">Material</span>
+                  <SelectBox
+                    value={formData.material}
+                    label="Material"
+                    options={[
+                      { title: "Reinforced Concrete" },
+                      { title: "Steel" },
+                      { title: "Masonry" },
+                    ]}
+                    onChange={(title) => formHandler("material", title)}
+                  />
+                  <span className="title">Lateral Load Resistant System</span>
+                  <SelectBox
+                    value={formData.lateralLoadResistantX}
+                    label="X Direction"
+                    options={[
+                      { title: "Momemt Frames" },
+                      { title: "Shear Walls" },
+                      { title: "Braced Frames" },
+                      { title: "Combinations" },
+                    ]}
+                    onChange={(title) =>
+                      formHandler("lateralLoadResistantX", title)
+                    }
+                  />
+                  <SelectBox
+                    value={formData.lateralLoadResistantY}
+                    label="Y Direction"
+                    options={[
+                      { title: "Momemt Frames" },
+                      { title: "Shear Walls" },
+                      { title: "Braced Frames" },
+                      { title: "Combinations" },
+                    ]}
+                    onChange={(title) =>
+                      formHandler("lateralLoadResistantY", title)
+                    }
+                  />
+                </div>
               </div>
             </div>
           </div>
           <div className="col col-12">
             <div className="btns">
-              <button
-                className={`back ${1 === 1 ? "" : "disable"}`}
-                onClick={1 === 1 ? Back : null}
-              >
+              <button className="back" onClick={Back}>
                 Back
               </button>
               <button
-                className={`next ${1 === 1 ? "" : "disable"}`}
-                onClick={1 === 1 ? Next : null}
+                className={`next ${allowContinue ? "" : "disable"}`}
+                onClick={allowContinue ? Next : null}
               >
                 Next
               </button>

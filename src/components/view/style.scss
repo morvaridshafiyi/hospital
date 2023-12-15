@@ -1,0 +1,17 @@
+@import "../../assets/styles/colors.scss";
+.view{
+    background-color: $blue-100;
+    .tabs{
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        .tab{
+           color: #fff;
+           padding: 4px 0;
+           cursor: pointer;
+           &.active{
+            border-bottom: 1px solid #fff;
+           }
+        }
+    }
+}
