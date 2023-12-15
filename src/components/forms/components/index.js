@@ -93,7 +93,13 @@ const Components = () => {
             <SelectBox
               value={localForm.component}
               label="Components"
-              options={[{ title: "option1" }, { title: "option2" }]}
+              options={[
+                { title: "ceilings" },
+                { title: "partitions" },
+                { title: "suspended lighting fixtures" },
+                { title: "glass windows" },
+                { title: "cladding" },
+              ]}
               onChange={(value) => formHandler("component", value)}
             />
             <TextInput
