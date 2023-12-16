@@ -58,76 +58,6 @@ const HospitalClassification = () => {
     formData.lateralLoadResistantX,
     formData.lateralLoadResistantY,
   ]);
-  // const floorsOn = Array.from({ length: formData.floorsOn }, (value, index) => {
-  //   return (
-  //     <div className="container-fluid">
-  //       <div className="row">
-  //         <div className="col col-4">
-  //           <TextInput
-  //             label="Floor"
-  //             value={index++}
-  //             required={true}
-  //             onChange={(value) => {}}
-  //           />
-  //         </div>
-
-  //         <div className="col col-4">
-  //           <TextInput
-  //             label="Floor Height"
-  //             value={""}
-  //             required={true}
-  //             onChange={(value) => {}}
-  //           />
-  //         </div>
-  //         <div className="col col-4">
-  //           <TextInput
-  //             label="Floor Area"
-  //             value={""}
-  //             required={true}
-  //             onChange={(value) => {}}
-  //             type={"number"}
-  //           />
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // }).reverse();
-  // const floorsUnder = Array.from(
-  //   { length: formData.floorsUnder },
-  //   (value, index) => {
-  //     return (
-  //       <div className="container-fluid">
-  //         <div className="row">
-  //           <div className="col col-4">
-  //             <TextInput
-  //               label="Floor"
-  //               value={-index - 1}
-  //               required={true}
-  //               onChange={(value) => {}}
-  //             />
-  //           </div>
-  //           <div className="col col-4">
-  //             <TextInput
-  //               label="Floor Height"
-  //               value={""}
-  //               required={true}
-  //               onChange={(value) => {}}
-  //             />
-  //           </div>
-  //           <div className="col col-4">
-  //             <TextInput
-  //               label="Floor Area"
-  //               value={""}
-  //               required={true}
-  //               onChange={(value) => {}}
-  //               type={"number"}
-  //             />
-  //           </div>
-  //         </div>
-  //       </div>
-  //     );
-  //   }
-  // );
 
   const changeRow = (item, key, value) => {
     const floor = floors.find((obj) => obj.index === item.index);
@@ -139,6 +69,7 @@ const HospitalClassification = () => {
     setFloors(updatedFloor);
   };
   const Next = () => {
+    formHandler("floors", floors)
     navigate("/components");
   };
   const Back = () => {

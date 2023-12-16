@@ -28,6 +28,7 @@ export const todoSlice = createSlice({
     vertical: false,
     plan: false,
     components: [],
+    floors:[],
     classification: {},
   },
   reducers: {
