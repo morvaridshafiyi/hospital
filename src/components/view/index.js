@@ -1,15 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IoMdSearch } from "react-icons/io";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { MdKeyboardArrowUp } from "react-icons/md";
-import RadioButton from "../elements/radioButton";
 import "./style.scss";
 import Chart from "./chart";
+import Grid from "./grid";
+import mockData from "../../api/mockData";
+
 const View = () => {
-  const [activeTab, setActiveTab] = useState("chart");
+  const [activeTab, setActiveTab] = useState("grid");
   const [serachedValue, setSerachedValue] = useState("");
-  const [expand, setExpand] = useState(false);
-  const [selectedItem, setSelectedItem] = useState("");
+  const [expand, setExpand] = useState(true);
+  const [selectedHospital, setSelectedHospital] = useState(null);
+  const [filteredData, setFilteredData] = useState({});
+
+  const filterData = () => {
+    if (!selectedHospital) {
+      setFilteredData({}); // Set an empty object if no hospital is selected
+      return;
+    }
+
+    const selectedHospitalData = mockData.find(
+      (item) => item.hospitalName === selectedHospital
+    );
+
+    if (selectedHospitalData) {
+      setFilteredData(selectedHospitalData); // Set the filtered data
+    } else {
+      setFilteredData({}); // Set an empty object if the selected hospital is not found
+    }
+  };
+  useEffect(() => {
+    filterData();
+  }, [selectedHospital]);
 
   return (
     <section className="view">
@@ -34,6 +57,7 @@ const View = () => {
             <span>Chart View</span>
           </div>
         </div>
+
         <div className="filter-box">
           <div className="input-field">
             <input
@@ -51,44 +75,38 @@ const View = () => {
             <div onClick={() => setExpand(!expand)}>
               {expand ? (
                 <i>
-                  <MdKeyboardArrowUp />
+                  <MdKeyboardArrowDown />
                 </i>
               ) : (
                 <i>
-                  <MdKeyboardArrowDown />
+                  <MdKeyboardArrowUp />
                 </i>
               )}
-              <div>Hospital</div>
+              <div>
+                Hospital :{" "}
+                {selectedHospital ? <span>{selectedHospital}</span> : null}
+              </div>
             </div>
-            {expand ? (
-              <RadioButton
-                title=""
-                items={[
-                  {
-                    label: "V1",
-                    name: "standard",
-                  },
-                  {
-                    label: "V2",
-                    name: "standard",
-                  },
-                  {
-                    label: "V3",
-                    name: "standard",
-                  },
-                  {
-                    label: "V4",
-                    name: "standard",
-                  },
-                ]}
-                onChange={(value) => setSelectedItem(value)}
-                value={selectedItem}
-              />
-            ) : null}
+            {expand
+              ? mockData.map((item, index) => (
+                  <div
+                    key={index}
+                    onClick={() => setSelectedHospital(item.hospitalName)}
+                  >
+                    {item.hospitalName}
+                  </div>
+                ))
+              : null}
           </div>
         </div>
       </div>
-      <div className="visual">{activeTab === "chart" ? <Chart /> : null}</div>
+      <div className="visual">
+        {activeTab === "chart" ? (
+          <Chart />
+        ) : activeTab === "grid" ? (
+          <Grid data={filteredData.charts} />
+        ) : null}
+      </div>
       {/* <div className="container-fluid">
         <div className="row">
           <div className="col col-4">

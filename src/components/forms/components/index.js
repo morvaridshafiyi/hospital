@@ -12,7 +12,35 @@ import {
   removeComponent,
 } from "../../../redux/slices/forms";
 import Breadcrumb from "../../breadcrumb";
-
+export const titleComponent = [
+  { title: "Architectural Components" },
+  { title: "Lifeline Systems" },
+  { title: "Medical Equipment" },
+];
+export const subtitleComponent = {
+  "Architectural Components": [
+    { title: "ceilings" },
+    { title: "partitions" },
+    { title: "suspended lighting fixtures" },
+    { title: "glass windows" },
+    { title: "cladding" },
+  ],
+  "Lifeline Systems": [
+    { title: "supply" },
+    { title: "electric power" },
+    { title: "heating" },
+    { title: "ventilation" },
+    { title: "air conditioning" },
+    { title: "communication systems" },
+  ],
+  "Medical Equipment": [
+    { title: "Rigid Blocks" },
+    { title: "Medical Cabinet" },
+    { title: "Wheel Equipment" },
+    { title: "Unanchored Contents" },
+    { title: "cladding" },
+  ],
+};
 const Components = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -21,10 +49,20 @@ const Components = () => {
     floorNumber: "",
     count: "",
     component: "",
+    element: "",
     cost: "",
     isEmbraced: "",
     serviceYears: "",
   });
+  const [subtitleCompoenent, setSubtitleCompoenent] = useState([]);
+
+  useEffect(() => {
+    setLocalForm((prevForm) => ({
+      ...prevForm,
+      element: "",
+    }));
+    setSubtitleCompoenent(subtitleComponent[localForm.component] || []);
+  }, [localForm.component]);
 
   const formHandler = (key, value) => {
     setLocalForm((prevForm) => ({
@@ -37,6 +75,7 @@ const Components = () => {
       floorNo: localForm.floorNumber,
       count: localForm.count,
       component: localForm.component,
+      element: localForm.element,
       cost: localForm.cost,
       isEmbraced: localForm.isEmbraced,
       serviceYears: localForm.serviceYears,
@@ -47,6 +86,7 @@ const Components = () => {
       floorNumber: "",
       count: "",
       component: "",
+      element: "",
       cost: "",
       isEmbraced: "",
       serviceYears: "",
@@ -56,6 +96,7 @@ const Components = () => {
     floorNumber: "",
     count: "",
     component: "",
+    element: "",
     cost: "",
     isEmbraced: "",
     serviceYears: "",
@@ -90,7 +131,7 @@ const Components = () => {
               onChange={(value) => formHandler("count", value)}
               type={"number"}
             />
-            <SelectBox
+            {/* <SelectBox
               value={localForm.component}
               label="Components"
               options={[
@@ -101,7 +142,29 @@ const Components = () => {
                 { title: "cladding" },
               ]}
               onChange={(value) => formHandler("component", value)}
-            />
+            /> */}
+            <div className="row">
+              <div className="col col-6">
+                <SelectBox
+                  value={localForm.component}
+                  label="compoent"
+                  options={titleComponent}
+                  onChange={(title) => {
+                    formHandler("component", title);
+                  }}
+                />
+              </div>
+              <div className="col col-6">
+                <SelectBox
+                  value={localForm.element}
+                  label="element"
+                  options={subtitleCompoenent}
+                  onChange={(value) => {
+                    formHandler("element", value);
+                  }}
+                />
+              </div>
+            </div>
             <TextInput
               value={localForm.cost}
               label="Cost"
@@ -160,6 +223,12 @@ const Components = () => {
                           <div className="item-row">
                             <span className="label">Coponent:</span>{" "}
                             <span className="value">{item.component}</span>
+                          </div>
+                        </div>
+                        <div className="col col-6">
+                          <div className="item-row">
+                            <span className="label">Element:</span>{" "}
+                            <span className="value">{item.element}</span>
                           </div>
                         </div>
                         <div className="col col-6">

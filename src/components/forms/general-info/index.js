@@ -241,10 +241,10 @@ const GeneralInfo = () => {
                         value={formData.soilType}
                         label="Soil Type"
                         options={[
-                          { title: "I" },
-                          { title: "II" },
-                          { title: "III" },
-                          { title: "IV" },
+                          { title: "type I" },
+                          { title: "type II" },
+                          { title: "type III" },
+                          { title: "type IV" },
                         ]}
                         onChange={(title) => {
                           formHandler("soilType", title);
