@@ -6,7 +6,7 @@ import "./style.scss";
 import Chart from "./chart";
 import Grid from "./grid";
 import mockData from "../../api/mockData";
-
+import RadioButton from "../elements/radioButton";
 const View = () => {
   const [activeTab, setActiveTab] = useState("grid");
   const [serachedValue, setSerachedValue] = useState("");
@@ -84,10 +84,27 @@ const View = () => {
               )}
               <div>
                 Hospital :{" "}
-                {selectedHospital ? <span>{selectedHospital}</span> : null}
+                {/* {selectedHospital ? <span>{selectedHospital}</span> : null} */}
               </div>
             </div>
-            {expand
+            {expand ? (
+              <RadioButton
+                title=""
+                items={
+                  mockData.map((item)=>{
+                    return(
+                      {
+                        label:item.hospitalName,
+                        name:'hospital'
+                      }
+                    )
+                  })
+                }
+                onChange={(value) => setSelectedHospital(value)}
+                value={selectedHospital}
+              />
+            ) : null}
+            {/* {expand
               ? mockData.map((item, index) => (
                   <div
                     key={index}
@@ -96,7 +113,7 @@ const View = () => {
                     {item.hospitalName}
                   </div>
                 ))
-              : null}
+              : null} */}
           </div>
         </div>
       </div>
