@@ -57,7 +57,8 @@ const View = () => {
             <span>Chart View</span>
           </div>
         </div>
-
+        <div className="row">
+        <div className="col-col-4">
         <div className="filter-box">
           <div className="input-field">
             <input
@@ -88,22 +89,20 @@ const View = () => {
               </div>
             </div>
             {expand ? (
+              
               <RadioButton
                 title=""
-                items={
-                  mockData.map((item)=>{
-                    return(
-                      {
-                        label:item.hospitalName,
-                        name:'hospital'
-                      }
-                    )
-                  })
-                }
+                items={mockData.map((item) => {
+                  return {
+                    label: item.hospitalName,
+                    name: "hospital",
+                  };
+                })}
                 onChange={(value) => setSelectedHospital(value)}
                 value={selectedHospital}
               />
             ) : null}
+
             {/* {expand
               ? mockData.map((item, index) => (
                   <div
@@ -116,13 +115,15 @@ const View = () => {
               : null} */}
           </div>
         </div>
+        </div>
       </div>
-      <div className="visual">
+      <div className="col-col-8">
         {activeTab === "chart" ? (
           <Chart />
         ) : activeTab === "grid" ? (
           <Grid data={filteredData.charts} />
         ) : null}
+      </div>
       </div>
       {/* <div className="container-fluid">
         <div className="row">

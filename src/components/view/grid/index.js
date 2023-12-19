@@ -12,12 +12,12 @@ import {
 const Grid = ({ data }) => {
   const fragilityValues = [0, 0.2, 0.4, 0.6, 0.8, 1];
 
-  const fragilityData = data.fragility.map((item, index) => ({
+  const fragilityData = data?.fragility?.map((item, index) => ({
     name: fragilityValues[index] || 0,
-    collapse: item.collapse || 0,
-    extensive: item.extensive || 0,
-    moderate: item.moderate || 0,
-    slight: item.slight || 0,
+    collapse: item?.collapse || 0,
+    extensive: item?.extensive || 0,
+    moderate: item?.moderate || 0,
+    slight: item?.slight || 0,
   }));
 
   const nameValuesSecondData = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5];
@@ -78,32 +78,34 @@ const Grid = ({ data }) => {
             </LineChart>
           </div>
           <div>
-            <LineChart width={450} height={300} data={hazardData}>
-              <CartesianGrid strokeDasharray="0 3" />
-              <XAxis
-                dataKey="name"
-                type="number"
-                scale="pow"
-                domain={["auto", "auto"]}
-              />
-              <YAxis type="number" scale="pow" domain={[0, 1]} />
-              <Tooltip />
-              <Legend />
-              <Line
-                type="monotone"
-                dataKey="amplifiedHazard"
-                stroke="#068800"
-                name="Amplified Hazard"
-                strokeWidth={2}
-              />
-              <Line
-                type="monotone"
-                dataKey="hazard"
-                stroke="#C40000"
-                name="Hazard"
-                strokeWidth={2}
-              />
-            </LineChart>
+            <div>
+              <LineChart width={450} height={300} data={hazardData}>
+                <CartesianGrid strokeDasharray="0 3" />
+                <XAxis
+                  dataKey="name"
+                  type="number"
+                  scale="pow"
+                  domain={["auto", "auto"]}
+                />
+                <YAxis type="number" scale="pow" domain={[0, 1]} />
+                <Tooltip />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="amplifiedHazard"
+                  stroke="#068800"
+                  name="Amplified Hazard"
+                  strokeWidth={2}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="hazard"
+                  stroke="#C40000"
+                  name="Hazard"
+                  strokeWidth={2}
+                />
+              </LineChart>
+            </div>
           </div>
         </div>
       </div>
