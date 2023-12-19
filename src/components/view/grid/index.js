@@ -31,9 +31,9 @@ const Grid = ({ data }) => {
       : [];
   return (
     <section className="chart">
-      <div className="container">
+      <div className="container-fluid">
         <div className="row">
-          <div>
+          <div className="col col-6">
             <LineChart width={450} height={300} data={fragilityData}>
               <CartesianGrid strokeDasharray="0 1" />
               <XAxis
@@ -77,7 +77,7 @@ const Grid = ({ data }) => {
               />
             </LineChart>
           </div>
-          <div>
+          <div className="col col-6">
             <div>
               <LineChart width={450} height={300} data={hazardData}>
                 <CartesianGrid strokeDasharray="0 3" />

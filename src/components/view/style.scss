@@ -1,7 +1,8 @@
 @import "../../assets/styles/colors.scss";
 .view {
+  display: flex;
   .filter {
-    width: 40%;
+    width: 35%;
     .filter-box {
       margin: 30px 8px;
       border: 1px solid $gray-200;
@@ -60,6 +61,7 @@
     }
   }
   .visual {
-    width: 60%;
+    padding-top: 45px;
+    width: 65%;
   }
 }

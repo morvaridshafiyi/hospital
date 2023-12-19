@@ -57,8 +57,6 @@ const View = () => {
             <span>Chart View</span>
           </div>
         </div>
-        <div className="row">
-        <div className="col-col-4">
         <div className="filter-box">
           <div className="input-field">
             <input
@@ -89,7 +87,6 @@ const View = () => {
               </div>
             </div>
             {expand ? (
-              
               <RadioButton
                 title=""
                 items={mockData.map((item) => {
@@ -115,15 +112,69 @@ const View = () => {
               : null} */}
           </div>
         </div>
-        </div>
+        {/* <div className="container-fluid">
+          <div className="row">
+            <div className="col-col-4">
+              <div className="filter-box">
+                <div className="input-field">
+                  <input
+                    value={serachedValue}
+                    type="text"
+                    required={true}
+                    spellCheck="false"
+                    onChange={(e) => setSerachedValue(e.target.value)}
+                  />
+                  <i>
+                    <IoMdSearch />
+                  </i>
+                </div>
+                <div className="title">
+                  <div onClick={() => setExpand(!expand)}>
+                    {expand ? (
+                      <i>
+                        <MdKeyboardArrowDown />
+                      </i>
+                    ) : (
+                      <i>
+                        <MdKeyboardArrowUp />
+                      </i>
+                    )}
+                    <div>
+                      Hospital :{" "}
+                    </div>
+                  </div>
+                  {expand ? (
+                    <RadioButton
+                      title=""
+                      items={mockData.map((item) => {
+                        return {
+                          label: item.hospitalName,
+                          name: "hospital",
+                        };
+                      })}
+                      onChange={(value) => setSelectedHospital(value)}
+                      value={selectedHospital}
+                    />
+                  ) : null}
+                </div>
+              </div>
+            </div>
+            <div className="col-col-8">
+              {activeTab === "chart" ? (
+                <Chart />
+              ) : activeTab === "grid" ? (
+                <Grid data={filteredData.charts} />
+              ) : null}
+            </div>
+          </div>
+        </div> */}
       </div>
-      <div className="col-col-8">
+      <div className="visual">
         {activeTab === "chart" ? (
           <Chart />
         ) : activeTab === "grid" ? (
           <Grid data={filteredData.charts} />
         ) : null}
-      </div>
       </div>
       {/* <div className="container-fluid">
         <div className="row">
