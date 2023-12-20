@@ -7,6 +7,7 @@ import Chart from "./chart";
 import Grid from "./grid";
 import mockData from "../../api/mockData";
 import RadioButton from "../elements/radioButton";
+import Map from "./map"
 const View = () => {
   const [activeTab, setActiveTab] = useState("grid");
   const [serachedValue, setSerachedValue] = useState("");
@@ -174,7 +175,9 @@ const View = () => {
           <Chart />
         ) : activeTab === "grid" ? (
           <Grid data={filteredData.charts} />
-        ) : null}
+        ) : activeTab ==='map'
+        ?<Map/>
+      :null}
       </div>
       {/* <div className="container-fluid">
         <div className="row">
