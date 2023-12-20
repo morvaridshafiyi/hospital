@@ -10,10 +10,10 @@ import {
 } from "recharts";
 
 const Grid = ({ data }) => {
-  const fragilityValues = [0, 0.2, 0.4, 0.6, 0.8, 1];
+  const nameData = [0, 0.2, 0.4, 0.6, 0.8, 1];
 
   const fragilityData = data?.fragility?.map((item, index) => ({
-    name: fragilityValues[index] || 0,
+    name: nameData[index] || 0,
     collapse: item?.collapse || 0,
     extensive: item?.extensive || 0,
     moderate: item?.moderate || 0,
@@ -30,7 +30,6 @@ const Grid = ({ data }) => {
         }))
       : [];
 
-  const nameData = [0, 0.2, 0.4, 0.6, 0.8, 1];
   const medicalData =
     data && data.medical
       ? data.medical.map((item, index) => ({
@@ -48,11 +47,43 @@ const Grid = ({ data }) => {
         }))
       : [];
 
-      const lifelineData = data && data.lifeline
+  const lifelineData =
+    data && data.lifeline
       ? data.lifeline.map((item, index) => ({
           name: nameData[index] || 0,
           slight: item.slight || null,
           moderate: item.moderate || null,
+        }))
+      : [];
+
+  const nscData =
+    data && data.nsc
+      ? data.nsc.map((item, index) => ({
+          name: nameData[index] || 0,
+          slight: item.slight || null,
+          moderate: item.moderate || null,
+        }))
+      : [];
+
+  const structuralData =
+    data && data.structural
+      ? data.structural.map((item, index) => ({
+        name: nameData[index] || 0,
+        collapse: item?.collapse || 0,
+        extensive: item?.extensive || 0,
+        moderate: item?.moderate || 0,
+        slight: item?.slight || 0,
+        }))
+      : [];
+
+  const combinedData =
+    data && data.combined
+      ? data.combined.map((item, index) => ({
+        name: nameData[index] || 0,
+        collapse: item?.collapse || 0,
+        extensive: item?.extensive || 0,
+        moderate: item?.moderate || 0,
+        slight: item?.slight || 0,
         }))
       : [];
 
@@ -217,7 +248,119 @@ const Grid = ({ data }) => {
                   />
                 </LineChart>
 
-                
+                <LineChart width={150} height={300} data={nscData}>
+                  <CartesianGrid strokeDasharray="0 3" />
+                  <XAxis
+                    dataKey="name"
+                    type="number"
+                    scale="pow"
+                    domain={[0, 1]}
+                  />
+                  <YAxis type="number" scale="pow" domain={[0, 1]} />
+                  <Tooltip />
+                  <Legend />
+                  <Line
+                    type="monotone"
+                    dataKey="slight"
+                    stroke="#C40000"
+                    name="slight"
+                    strokeWidth={2}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="moderate"
+                    stroke="#3532C8"
+                    name="moderate"
+                    strokeWidth={2}
+                  />
+                </LineChart>
+
+                <LineChart width={150} height={300} data={structuralData}>
+                  <CartesianGrid strokeDasharray="0 1" />
+                  <XAxis
+                    dataKey="name"
+                    type="number"
+                    scale="pow"
+                    domain={["auto", "auto"]}
+                  />
+                  <YAxis type="number" scale="pow" domain={[0, 1]} />
+                  <Tooltip />
+                  <Legend />
+                  <Line
+                    type="monotone"
+                    dataKey="collapse"
+                    stroke="#A3CC4A"
+                    name="collapse"
+                    strokeWidth={2}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="extensive"
+                    stroke="#2BA90F"
+                    strokeDasharray="3 2"
+                    name="extensive"
+                    strokeWidth={2}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="moderate"
+                    stroke="#7A00C4"
+                    strokeDasharray="3 2"
+                    name="moderate"
+                    strokeWidth={2}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="slight"
+                    stroke="#C40000"
+                    name="slight"
+                    strokeWidth={2}
+                  />
+                </LineChart>
+
+                <LineChart width={150} height={300} data={combinedData}>
+                  <CartesianGrid strokeDasharray="0 1" />
+                  <XAxis
+                    dataKey="name"
+                    type="number"
+                    scale="pow"
+                    domain={["auto", "auto"]}
+                  />
+                  <YAxis type="number" scale="pow" domain={[0, 1]} />
+                  <Tooltip />
+                  <Legend />
+                  <Line
+                    type="monotone"
+                    dataKey="collapse"
+                    stroke="#A3CC4A"
+                    name="collapse"
+                    strokeWidth={2}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="extensive"
+                    stroke="#2BA90F"
+                    strokeDasharray="3 2"
+                    name="extensive"
+                    strokeWidth={2}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="moderate"
+                    stroke="#7A00C4"
+                    strokeDasharray="3 2"
+                    name="moderate"
+                    strokeWidth={2}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="slight"
+                    stroke="#C40000"
+                    name="slight"
+                    strokeWidth={2}
+                  />
+                </LineChart>
+
               </div>
             </div>
           </div>
