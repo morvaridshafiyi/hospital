@@ -91,7 +91,8 @@ const Grid = ({ data }) => {
     <section className="chart">
       <div className="container-fluid">
         <div className="row">
-          <div className="col col-6">
+          <div className="col col-12">
+        <div className="row">
             <LineChart width={450} height={300} data={fragilityData}>
               <CartesianGrid strokeDasharray="0 1" />
               <XAxis
@@ -134,8 +135,6 @@ const Grid = ({ data }) => {
                 strokeWidth={2}
               />
             </LineChart>
-          </div>
-          <div className="col col-6">
             <LineChart width={450} height={300} data={hazardData}>
               <CartesianGrid strokeDasharray="0 1" />
               <XAxis
@@ -162,9 +161,11 @@ const Grid = ({ data }) => {
                 strokeWidth={2}
               />
             </LineChart>
+            </div>
           </div>
-          <div className="col col-6">
-            <LineChart width={450} height={300} data={medicalData}>
+          <div className="col col-8">
+            <div className="row">
+            <LineChart width={300} height={300} data={medicalData}>
               <CartesianGrid strokeDasharray="0 3" />
               <XAxis dataKey="name" type="number" scale="pow" domain={[0, 1]} />
               <YAxis type="number" scale="pow" domain={[0, 1]} />
@@ -185,9 +186,7 @@ const Grid = ({ data }) => {
                 strokeWidth={2}
               />
             </LineChart>
-          </div>
-          <div className="col col-6">
-            <LineChart width={450} height={300} data={architecturalData}>
+            <LineChart width={300} height={300} data={architecturalData}>
               <CartesianGrid strokeDasharray="0 3" />
               <XAxis dataKey="name" type="number" scale="pow" domain={[0, 1]} />
               <YAxis type="number" scale="pow" domain={[0, 1]} />
@@ -208,9 +207,7 @@ const Grid = ({ data }) => {
                 strokeWidth={2}
               />
             </LineChart>
-          </div>
-          <div className="col col-6">
-            <LineChart width={450} height={300} data={lifelineData}>
+            <LineChart width={300} height={300} data={lifelineData}>
               <CartesianGrid strokeDasharray="0 3" />
               <XAxis dataKey="name" type="number" scale="pow" domain={[0, 1]} />
               <YAxis type="number" scale="pow" domain={[0, 1]} />
@@ -231,9 +228,7 @@ const Grid = ({ data }) => {
                 strokeWidth={2}
               />
             </LineChart>
-          </div>
-          <div className="col col-6">
-            <LineChart width={450} height={300} data={nscData}>
+            <LineChart width={300} height={300} data={nscData}>
               <CartesianGrid strokeDasharray="0 3" />
               <XAxis dataKey="name" type="number" scale="pow" domain={[0, 1]} />
               <YAxis type="number" scale="pow" domain={[0, 1]} />
@@ -254,9 +249,7 @@ const Grid = ({ data }) => {
                 strokeWidth={2}
               />
             </LineChart>
-          </div>
-          <div className="col col-6">
-            <LineChart width={450} height={300} data={structuralData}>
+            <LineChart width={300} height={300} data={structuralData}>
               <CartesianGrid strokeDasharray="0 1" />
               <XAxis
                 dataKey="name"
@@ -298,9 +291,7 @@ const Grid = ({ data }) => {
                 strokeWidth={2}
               />
             </LineChart>
-          </div>
-          <div className="col col-6">
-            <LineChart width={450} height={300} data={combinedData}>
+            <LineChart width={300} height={300} data={combinedData}>
               <CartesianGrid strokeDasharray="0 1" />
               <XAxis
                 dataKey="name"
@@ -342,7 +333,9 @@ const Grid = ({ data }) => {
                 strokeWidth={2}
               />
             </LineChart>
+            </div>
           </div>
+         
         </div>
       </div>
     </section>
