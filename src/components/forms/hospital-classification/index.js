@@ -103,7 +103,7 @@ const HospitalClassification = () => {
 
                           <div className="col col-4">
                             <TextInput
-                              label="Floor Height"
+                              label="Floor Height (m)"
                               value={item.height}
                               required={true}
                               onChange={(value) => {
@@ -113,7 +113,7 @@ const HospitalClassification = () => {
                           </div>
                           <div className="col col-4">
                             <TextInput
-                              label="Floor Area"
+                              label="Floor Area (m^2)"
                               value={item.area}
                               required={true}
                               onChange={(value) => {
