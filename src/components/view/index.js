@@ -34,7 +34,7 @@ const View = () => {
   useEffect(() => {
     filterData();
   }, [selectedHospital]);
-
+  const locations = mockData.map((item) => [item.latitude, item.longitude])
   return (
     <section className="view">
       <div className="filter">
@@ -106,7 +106,7 @@ const View = () => {
         ) : activeTab === "grid" ? (
           <Grid data={filteredData.charts} />
         ) : activeTab === "map" ? (
-          <Map />
+          <Map locations={locations}/>
         ) : null}
       </div>
     </section>
