@@ -7,18 +7,13 @@ import SelectBox from "../../elements/selectBox";
 import TextInput from "../../elements/textInput";
 import MiladiDatePicker from "../../elements/datePicker";
 import TextArea from "../../elements/textArea";
-import {
-  MapContainer,
-  Marker,
-  TileLayer,
-} from "react-leaflet";
-import L from "leaflet"
+import { MapContainer, Marker, TileLayer } from "react-leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { floorsNoSetter, form } from "../../../redux/slices/forms";
 import { Link, useNavigate } from "react-router-dom";
 import { cities, states } from "../../elements/cityPicker";
 import marker from "../../../assets/images/marker.svg";
-
 
 const GeneralInfo = () => {
   const dispatch = useDispatch();
@@ -28,10 +23,10 @@ const GeneralInfo = () => {
   const [cityOptions, setCityOptions] = useState([]);
 
   const markerIcon = new L.icon({
-    iconUrl:marker,
-    iconSize:[32 , 32],
-    iconAnchor:[16,32]
-  })
+    iconUrl: marker,
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
+  });
   const formHandler = (key, value) => {
     dispatch(form({ key, value }));
   };
@@ -159,6 +154,7 @@ const GeneralInfo = () => {
                         onChange={(value) => {
                           formHandler("floorsOn", value);
                         }}
+                        type={"number"}
                       />
                     </div>
                     <div className="col col-6">
@@ -169,6 +165,7 @@ const GeneralInfo = () => {
                         onChange={(value) => {
                           formHandler("floorsUnder", value);
                         }}
+                        type={"number"}
                       />
                     </div>
 
@@ -189,6 +186,7 @@ const GeneralInfo = () => {
                         onChange={(value) => {
                           formHandler("latitude", value);
                         }}
+                        max={10}
                       />
                     </div>
                     <div className="col col-6">
@@ -199,6 +197,7 @@ const GeneralInfo = () => {
                         onChange={(value) => {
                           formHandler("longitude", value);
                         }}
+                        max={10}
                       />
                     </div>
                     <div className="col col-4">
@@ -209,6 +208,7 @@ const GeneralInfo = () => {
                         onChange={(value) => {
                           formHandler("bedsNumber", value);
                         }}
+                        type={"number"}
                       />
                     </div>
                     <div className="col col-4">
@@ -234,6 +234,7 @@ const GeneralInfo = () => {
                         onChange={(value) => {
                           formHandler("unitPrice", value);
                         }}
+                        type={"number"}
                       />
                     </div>
                     <div className="col col-12">

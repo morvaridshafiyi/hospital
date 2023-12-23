@@ -64,4 +64,12 @@
     padding-top: 45px;
     width: 65%;
   }
+  .hospitals{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .form-group{
+      margin: 4px 0;
+    }
+  }
 }

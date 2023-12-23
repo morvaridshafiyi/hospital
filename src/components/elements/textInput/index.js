@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.scss";
 
-const TextInput = ({ value, label, required, onChange , type }) => {
+const TextInput = ({ value, label, required, onChange , type , max }) => {
   return (
     <div className="input-field">
       <input
@@ -10,6 +10,8 @@ const TextInput = ({ value, label, required, onChange , type }) => {
         required={required}
         spellCheck="false"
         onChange={(e) => onChange(e.target.value)}
+        max={max}
+        maxLength={max}
       />
       <label>{label}</label>
     </div>

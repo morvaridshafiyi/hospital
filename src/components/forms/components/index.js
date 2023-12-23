@@ -55,6 +55,7 @@ const Components = () => {
     serviceYears: "",
   });
   const [subtitleCompoenent, setSubtitleCompoenent] = useState([]);
+  const [allowAdd, setAllowAdd] = useState(false);
 
   useEffect(() => {
     setLocalForm((prevForm) => ({
@@ -63,6 +64,22 @@ const Components = () => {
     }));
     setSubtitleCompoenent(subtitleComponent[localForm.component] || []);
   }, [localForm.component]);
+
+  useEffect(() => {
+    if (
+      localForm.floorNumber &&
+      localForm.count &&
+      localForm.component &&
+      localForm.element &&
+      localForm.cost &&
+      localForm.isEmbraced &&
+      localForm.serviceYears
+    ) {
+      setAllowAdd(true);
+    } else {
+      setAllowAdd(false);
+    }
+  }, [localForm]);
 
   const formHandler = (key, value) => {
     setLocalForm((prevForm) => ({
@@ -108,6 +125,7 @@ const Components = () => {
   const Next = () => {
     navigate("/view");
   };
+
   return (
     <section className="components">
       <div className="container">
@@ -116,7 +134,7 @@ const Components = () => {
             <Breadcrumb activeStep={3} />
           </div>
           <div className="col col-6">
-            <span className="title">add component</span>
+            <span className="title">Add Component</span>
             <TextInput
               value={localForm.floorNumber}
               label="Floor Number"
@@ -186,15 +204,12 @@ const Components = () => {
               type={"number"}
             />
             <div className="btns">
-              <button
-                className={`back ${1 === 1 ? "" : "disable"}`}
-                onClick={() => setLocalForm(emptyForm)}
-              >
+              <button className="back" onClick={() => setLocalForm(emptyForm)}>
                 Cancel
               </button>
               <button
-                className={`next ${1 === 1 ? "" : "disable"}`}
-                onClick={1 === 1 ? saveComponent : null}
+                className={`next ${allowAdd ? "" : "disable"}`}
+                onClick={allowAdd ? saveComponent : null}
               >
                 Save
               </button>

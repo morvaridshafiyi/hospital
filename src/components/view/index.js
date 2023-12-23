@@ -14,6 +14,7 @@ const View = () => {
   const [expand, setExpand] = useState(true);
   const [selectedHospital, setSelectedHospital] = useState(null);
   const [filteredData, setFilteredData] = useState({});
+  const [searchedData, setSearchedData] = useState(mockData);
 
   const filterData = () => {
     if (!selectedHospital) {
@@ -34,7 +35,21 @@ const View = () => {
   useEffect(() => {
     filterData();
   }, [selectedHospital]);
-  const locations = mockData.map((item) => [item.latitude, item.longitude])
+  const locations = mockData.map((item) => [item.latitude, item.longitude]);
+
+  const searchData = (value) => {
+    setSerachedValue(value);
+    if (value && value.length > 0) {
+      let updatedArray = [];
+      mockData.map((item) => {
+        if (item.hospitalName.includes(value)) {
+          updatedArray.push(item);
+        }
+      });
+      setSearchedData(updatedArray);
+    } else setSearchedData(mockData);
+  };
+
   return (
     <section className="view">
       <div className="filter">
@@ -65,7 +80,7 @@ const View = () => {
               type="text"
               required={true}
               spellCheck="false"
-              onChange={(e) => setSerachedValue(e.target.value)}
+              onChange={(e) => searchData(e.target.value)}
             />
             <i>
               <IoMdSearch />
@@ -85,28 +100,46 @@ const View = () => {
               <div>Hospital</div>
             </div>
             {expand ? (
-              <RadioButton
-                title=""
-                items={mockData.map((item) => {
-                  return {
-                    label: item.hospitalName,
-                    name: "hospital",
-                  };
+              <div className="hospitals">
+                {searchedData.map((item) => {
+                  return (
+                    <div class="form-group">
+                      <input
+                        type="checkbox"
+                        name={item.hospitalName}
+                        id={item.hospitalName}
+                        value={item.hospitalName}
+                        onChange={(e) => {
+                          setSelectedHospital(e.target.value);
+                        }}
+                      />
+                      <label for={item.hospitalName}>{item.hospitalName}</label>
+                    </div>
+                  );
                 })}
-                onChange={(value) => setSelectedHospital(value)}
-                value={selectedHospital}
-              />
+              </div>
             ) : null}
+            {/* // <RadioButton
+              //   title=""
+              //   items={searchedData.map((item) => {
+              //     return {
+              //       label: item.hospitalName,
+              //       name: "hospital",
+              //     };
+              //   })}
+              //   onChange={(value) => setSelectedHospital(value)}
+              //   value={selectedHospital}
+              // /> */}
           </div>
         </div>
       </div>
       <div className="visual">
         {activeTab === "chart" ? (
-          <Chart data={mockData}/>
+          <Chart data={mockData} />
         ) : activeTab === "grid" ? (
           <Grid data={filteredData.charts} />
         ) : activeTab === "map" ? (
-          <Map locations={locations}/>
+          <Map locations={locations} />
         ) : null}
       </div>
     </section>
